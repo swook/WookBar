@@ -6,16 +6,18 @@ cd thirdparty
 for url in `cat list`
 do
 	f="${url##*/}"
-	mf="${f/%".js"/".min.js"}"
 	if [ "${url:0:1}" = "#" ]; then
 		continue
 	fi
 
 	echo "- Updating: "$f
 	wget -Nnv $url
-	if [ `expr index ".min.js" $f` ] && [ $f -nt $mf ]; then
-		echo "- Minifying: "$f
-		yui-compressor $f > $mf
+	if [ ! `expr index ".min.js" $f` ]; then
+		mf="${f/%".js"/".min.js"}"
+		if [ $f -nt $mf ]; then
+			echo "- Minifying: "$f
+			yui-compressor $f > $mf
+		fi
 	fi
 done
 
