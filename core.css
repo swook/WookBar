@@ -1,0 +1,231 @@
+#mynavbar {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
+#mynavbar .topbar {
+  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, .9);
+  font-family: Cagliostro;
+  color: black;
+  height: 26px;
+  width: 100%;
+  line-height: 26px;
+  padding: 0 8px;
+  border-bottom: 1px solid #DDD;
+}
+#mynavbar .left {
+  float: left;
+  padding: 0 2px;
+  width: 60%
+}
+#mynavbar a.blogger-logo {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background: url(http://img1.blogblog.com/img/navbar/icons_orange.png) -26px center no-repeat;
+  background-color: #F23600;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  margin: 3px 90px 3px 0;
+  top: 0 !important;
+  opacity: .5;
+}
+#mynavbar a.blogger-logo:hover {
+  opacity: 1;
+}
+#mynavbar a.home {
+  position: relative;
+  font-size: 21px;
+  font-weight: 500 !important;
+  padding: 2px 3px;
+  top: -5px;
+  color: black;
+}
+#mynavbar a.page {
+  display: inline-block;
+  position: absolute;
+  height: 26px;
+  top: 0px;
+  color: #555;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 4px;
+  max-width: 38%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+#mynavbar a.nextblog {
+  position: absolute;
+  display: inline-block;
+  color: white;
+  font: bold 11px arial,sans-serif !important;
+  line-height: 20px !important;
+  margin: 3px 0 3px -93px;
+  background-color: #F26300;
+  border-left: 1px solid #F48522;
+  padding-left: 10px;
+  height: 20px;
+  opacity: .5;
+  top: 0;
+}
+#mynavbar a.nextblog:after {
+  content: "";
+  position: relative;
+  float: right;
+  top: 0;
+  left: 10px;
+  width: 0;
+  height: 0;
+  border-color: transparent transparent transparent #F26300;
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+}
+#mynavbar a.nextblog:hover {
+  opacity: 1;
+}
+#mynavbar .left a:hover {
+  text-decoration: none;
+}
+#mynavbar .right {
+  float: right;
+  padding-top: 1px;
+  padding-right: 25px;
+}
+#mynavbar .search {
+  opacity: 1;
+  background-color: white;
+  box-shadow: 0 0 1px #DDD;
+  line-height: 14px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border: 1px solid #DDD;
+  padding: 0px 8px;
+  margin: 2px 2px;
+  width: 180px;
+  margin-left: auto;
+}
+#topbar-search {
+  border: none;
+  outline: none;
+  width: 160px;
+  margin: 0 0;
+  padding: 0 0;
+  font-size: 12px;
+  display: inline-block;
+}
+.defaultInput {
+  color: #999;
+}
+#mynavbar .right .cont {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  background: white;
+  position: absolute;
+  top: 26px;
+  right: 2px;
+  opacity: 1;
+  border: solid 1px #DDD;
+  margin: 0 0;
+  padding: 0 0;
+  width: 240px;
+  border-top: 0;
+  list-style-type: none;
+  overflow: hidden;
+}
+#mynavbar .right .cont .shadow {
+  position: fixed;
+  width: 240px;
+  background-repeat: repeat-x;
+  background-image: url('http://cdn.swook.net/css/shadow.png');
+}
+#mynavbar .right .cont .topshadow {
+  display: none;
+  height: 26px;
+  background-size: 240px 26px;
+  top: 26px;
+}
+#mynavbar .right .cont .bottomshadow {
+  display: none;
+  height: 30px;
+  background-size: 240px 30px;
+  bottom: 0;
+  transform:rotate(180deg);
+  -ms-transform:rotate(180deg); /* Internet Explorer */
+  -moz-transform:rotate(180deg); /* Firefox */
+  -webkit-transform:rotate(180deg); /* Safari and Chrome */
+  -o-transform:rotate(180deg); /* Opera */
+}
+#mynavbar .right .cont .scrollbar {
+  position: fixed;
+  width: 3px;
+  top: 26px;
+  right: 0;
+  background-color: #995815;
+  border-left: 1px solid #AA7937;
+}
+#mynavbar .right .cont a {
+  line-height: 1.2em;
+  margin: 0 0;
+  padding: 11px 9px;
+  display: block;
+  color: black;
+  background-color: white;
+  border-bottom: solid 1px #DDD;
+}
+#mynavbar .right a:hover,
+#mynavbar .right a.hover {
+  border-left: 2px solid #995815;
+  padding-left: 7px;
+  text-decoration: none;
+}
+#mynavbar .right a.nohover {
+  padding-left: 9px !important;
+  border-left: none !important;
+}
+#mynavbar .right .cont a img.thumbnail {
+  width: 36px;
+  height: 36px;
+  margin: 6px 8px 5px 2px;
+  vertical-align: middle;
+  float: left;
+}
+#mynavbar .right .cont div.date {
+	margin-top: -2px;
+	margin-bottom: -16px;
+	padding: 1px 9px 0 9px;
+	text-align: right;
+	font-weight: 500;
+	font-size: 11px;
+	color: #666;
+}
+#mynavbar .right .cont a div.title {
+  font-weight: 500;
+  font-size: 14px;
+  height: 17px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+#mynavbar .right .cont a p.desc {
+  padding: 0;
+  height: 44px;
+  overflow: hidden;
+  margin: 2px 0 2px 5px;
+  font-family: sans-serif;
+}
+#mynavbar .magni {
+  border: none;
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  width: 13px;
+  cursor: pointer;
+  background: url('http://cdn.swook.net/css/magni.png') no-repeat center;
+}
