@@ -6,6 +6,7 @@
 WB.social = {
 	load: {
 		facebook: function(e, url) {
+			// https://graph.facebook.com/http://www.swook.net/p/cloudfront-invalidator.html
 			var fb = $('span.facebook', e);
 			if (fb.length == 0) {
 				e.append('<span class="facebook"/>');
@@ -22,10 +23,11 @@ WB.social = {
 			} else {
 				gp.replaceWith('<div class="g-plusone" data-size="medium" data-href="'+url+'"></div>');
 			}
-			if (window.gapi && gapi.plusone) gapi.plusone.go();
+			if (window.gapi && gapi.plusone) gapi.plusone.go(gp[0]);
 			else $.getScript('//apis.google.com/js/plusone.js');
 		},
 		twitter: function(e, url) {
+			// http://urls.api.twitter.com/1/urls/count.json?url=http://www.swook.net/p/cloudfront-invalidator.html
 			var twt = $('span.twitter', e);
 			if (twt.length == 0) {
 				e.append('<span class="twitter"/>');
@@ -36,7 +38,7 @@ WB.social = {
 		},
 		all: function() {
 			var e = $('#topbar-social'),
-				urlo = $('<a href="'+url+'"/>')[0],
+				urlo = $('<a href="'+document.URL+'"/>')[0],
 				url = urlo.protocol +'//'+ urlo.hostname + urlo.port + urlo.pathname;
 			WB.social.load.facebook(e, url);
 			WB.social.load.google_plus(e, url);

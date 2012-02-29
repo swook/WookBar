@@ -18,6 +18,7 @@ var WB = {
 		var bloggerData = _WidgetManager._GetAllData().blog;
 		WB.blog.title = bloggerData.title;
 		WB.blog.homepage = bloggerData.canonicalHomepageUrl;
+		WB.blog.id = blogger_blog_id;
 		$('#topbar-search')[0].defaultValue = 'Search '+WB.blog.title;
 
 		var parseEntries = function (data, type) {

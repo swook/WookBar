@@ -1,0 +1,362 @@
+<html>
+	<head>
+		<style>
+			body {
+				margin: 0;
+			}
+#WB {
+	position: fixed;
+	margin: 0;
+	top: 0;
+	height: 26px;
+	border-bottom: 1px solid #DDD;
+	width: 100%;
+}
+#WB ul {
+	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjpyZ2JhKDIzMCwyMzAsMjMwLDAuOSk7IiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6cmdiYSgyNTUsMjU1LDI1NSwwLjkpOyIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2dyYWRpZW50KSIgaGVpZ2h0PSIxMDAlIiB3aWR0aD0iMTAwJSIgLz48L3N2Zz4=);
+	background: -o-linear-gradient(top, rgba(230,230,230,0.9), rgba(255,255,255,0.9));
+	background: -moz-linear-gradient(top, rgba(230,230,230,0.9), rgba(255,255,255,0.9));
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(230,230,230,0.9)), color-stop(1, rgba(255,255,255,0.9)));
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#E6E6E6E6,EndColorStr=#E6FFFFFF);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#E6E6E6E6,EndColorStr=#E6FFFFFF)";
+
+	list-style: none;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	height: 26px;
+
+	color: #333;
+	font: 500 16px/26px "Arial", sans-serif;
+}
+#WB li {
+	float: left;
+	height: 100%;
+	position: relative;
+}
+#WB li a {
+	display: block;
+	margin: 0;
+	height: 100%;
+	text-decoration: none;
+}
+#WB li div.menu {
+	position: absolute;
+	padding: 0 5px;
+	opacity: 0;
+	height: 0;
+	top: 26px;
+	left: -1px;
+	border: 1px solid #DDD;
+	border-top: 0;
+	background-color: #FAFAFA;
+	transition: height .5s, background-color .5s, opacity .5s;
+	-o-transition: height .5s, background-color .5s, opacity .5s;
+	-moz-transition: height .5s, background-color .5s, opacity .5s;
+	-webkit-transition: height .5s, background-color .5s, opacity .5s;
+}
+#WB li:hover div.menu {
+	opacity: 1;
+	background-color: #F5F5F5;
+}
+#WB li.appmenu {
+	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjpyZ2JhKDI1MywxNDcsNzcsMSk7IiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6cmdiYSgyNDksMTE4LDExLDEpOyIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2dyYWRpZW50KSIgaGVpZ2h0PSIxMDAlIiB3aWR0aD0iMTAwJSIgLz48L3N2Zz4=);
+	background: -o-linear-gradient(top, rgba(253,147,77,1), rgba(249,118,11,1));
+	background: -moz-linear-gradient(top, rgba(253,147,77,1), rgba(249,118,11,1));
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(253,147,77,1)), color-stop(1, rgba(249,118,11,1)));
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFFD934D,EndColorStr=#FFF9760B);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFFD934D,EndColorStr=#FFF9760B)";
+	width: auto;
+}
+#WB li.appmenu a.blogger {
+	display: inline-block;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAoUlEQVR42mNgoDX4//+/AhDPB+L3/3GD+0DcAMQCxBhoQMAwdHAer8FQF5JiINxgfIbO/08+SMBl6HsKDN2Py1BsIACLugYs6t6TYmgBCcHkQKyh5ID3tDD0//AxFJTM9uPB98kx1IBAthbAZjAhQ0HJxwEPTiDk0vu0CNMGKpm5Hz18zlOa8DHiAWrwfqoZiGY4KALWE0hOyLiAqFqAUgAAyam9OmMUq1wAAAAASUVORK5CYII=) no-repeat center center;
+	background-size: 16px 16px;
+	height: 26px;
+	width: 28px;
+	float: left;
+	opacity: .8;
+	transition: opacity .5s;
+	-o-transition: opacity .5s;
+	-moz-transition: opacity .5s;
+	-webkit-transition: opacity .5s;
+}
+#WB li.appmenu a.blogger:hover {
+	opacity: 1;
+}
+#WB li.appmenu a.title {
+	display: inline-block;
+	border-right: 1px solid #FB8F3D;
+	padding: 0 14px 0 10px;
+	color: white;
+	transition: text-shadow .5s;
+	-o-transition: text-shadow .5s;
+	-moz-transition: text-shadow .5s;
+	-webkit-transition: text-shadow .5s;
+}
+#WB li.appmenu a.title:hover {
+	text-shadow: white 0 0 1px;
+}
+#WB li.appmenu div.menu {
+	width: 100%;
+	padding: 0;
+	border-right: 0;
+	border-bottom-right-radius: 8px;
+	-moz-border-bottom-right-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	background-color: #FD934D;
+}
+#WB li.appmenu:hover div.menu {
+	height: 120px;
+	background-color: #F9760B;
+}
+#WB li.appmenu div.menu hr {
+	border: 0;
+	width: 75%;
+	height: 1px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	background-color: #FD934D;
+}
+#WB li.appmenu div.menu hr:first-child {
+	margin-top: 0;
+	width: 100%;
+}
+#WB li.appmenu + li.crumb a {
+	padding: 0 13px;
+}
+#WB li.crumb a {
+	background-color: #FAFAFA;
+	color: #555;
+	font-size: 13px;
+	padding: 0 10px 0 23px;
+	transition: color .5s;
+	-o-transition: color .5s;
+	-moz-transition: color .5s;
+	-webkit-transition: color .5s;
+}
+#WB li.crumb span {
+	display: block;
+	max-width: 250px;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+#WB li.crumb a:before {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 100%;
+	margin-left: 1px;
+	border-width: 13px 0 13px 13px;
+	border-style: outset solid solid solid;
+	border-color: transparent transparent transparent #DDD;
+	z-index: 1;
+}
+#WB li.crumb a:after {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 100%;
+	border-width: 13px 0 13px 13px;
+	border-style: outset solid solid solid;
+	border-color: transparent transparent transparent #FAFAFA;
+	z-index: 2;
+}
+#WB li.crumb a:hover {
+	color: #333;
+	background-color: #F5F5F5;
+}
+#WB li.crumb a:hover:after {
+	border-left-color: #F5F5F5;
+}
+#WB li.social {
+	display: block;
+	position: relative;
+	cursor: default;
+	float: right;
+	width: 90px;
+	height: 100%;
+	padding: 0 13px 0 5px;
+	background-color: #FAFAFA;
+	border-left: 1px solid #DDD;
+	transition: background-color .5s;
+	-o-transition: background-color .5s;
+	-moz-transition: background-color .5s;
+	-webkit-transition: background-color .5s;
+}
+#WB li.social:hover {
+	background-color: #F5F5F5;
+}
+#WB li.social div.facebook,
+#WB li.social div.gplus,
+#WB li.social div.twitter {
+	display: inline-block;
+	position: relative;
+	margin: 0;
+	height: 26px;
+	width: 26px;
+	background-size: 20px 20px;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+#WB li.social div.facebook {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZBAMAAAA2x5hQAAAAA3NCSVQICAjb4U/gAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAAEHRSTlMAESIzRFVmd4iZqrvM3e7/dpUBFQAAAAlwSFlzAAAcIAAAHCABzQ+bngAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMi8yOC8xMsEj3asAAAAfdEVYdFNvZnR3YXJlAE1hY3JvbWVkaWEgRmlyZXdvcmtzIDi1aNJ4AAAAXElEQVQYlWNgIASY9///gODl/UfisbxH5rH//7dqAZzH8f+nAEIb2/9vCA5r1P9foQEwHh/QkHcXYDz+/0AwAcbjOff/3xkHGI9J4/9PJYQx7P9/IDmTg848ogAATMo1tiLKjQwAAAAASUVORK5CYII=);
+}
+#WB li.social div.gplus {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZBAMAAAA2x5hQAAAAA3NCSVQICAjb4U/gAAAAMFBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAv3aB7AAAAEHRSTlMAESIzRFVmd4iZqrvM3e7/dpUBFQAAAAlwSFlzAAAcIAAAHCABzQ+bngAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMi8yOC8xMsEj3asAAAAfdEVYdFNvZnR3YXJlAE1hY3JvbWVkaWEgRmlyZXdvcmtzIDi1aNJ4AAAApklEQVQYlWNgIB34Q2n11bt3B8B4bM89/xfB5fIbGPY/hPPeOzDY/+j/DwQODAzMQILvt4pLvYuLAAMDy/8GBu5fMJWM7w8wcH+D6+v/zmA/Ac7j+D/zJZDSgNou0v8R2VH935B5ekBjYUBszun3P2Ec1nuJDNL/E6A8+89AYv0CKG/+BiChvwHK238BSPAXIBtfKwDlSf+fwqBxCG5D1vu/y7CGFABOlzh+k8MSsgAAAABJRU5ErkJggg==);
+}
+#WB li.social div.twitter {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZBAMAAAA2x5hQAAAAA3NCSVQICAjb4U/gAAAALVBMVEX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAOrOgAAAAD3RSTlMAESIzRFVmd4iZu8zd7v9ufV8LAAAACXBIWXMAABwgAAAcIAHND5ueAAAAFnRFWHRDcmVhdGlvbiBUaW1lADAyLzI4LzEywSPdqwAAAB90RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgOLVo0ngAAABaSURBVBiVY2AgCfQeReKwvnungOBxvHvngIdX4oLMe/duIwrvBR7eZSTejA4FJB4++xJQ3HkIwWO89+7dqgA4tw9ow1M4jxvZdgbGee/ePUfoZJn7roGBJAAAX/I5/yG5BbEAAAAASUVORK5CYII=);
+}
+#WB li.social span.counter {
+	position: absolute;
+	display: block;
+	float: right;
+	top: 17px;
+	right: -1px;
+	width: 10px;
+	font-size: 9px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 7px;
+}
+#WB li.social span.counter[count="0"] {
+	display: none;
+}
+#WB li.social div.menu {
+	width: 97px;
+}
+#WB li.social:hover div.menu {
+	height: 92px;
+}
+#WB li.search {
+	float: right;
+}
+#WB li.search form {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	right: 0;
+	min-width: 30px;
+	position: relative;
+	background-color: #FAFAFA;
+	transition: background-color .5s;
+	-o-transition: background-color .5s;
+	-moz-transition: background-color .5s;
+	-webkit-transition: background-color .5s;
+}
+#WB li.search form:before {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0;
+	left: -14px;
+	border-width: 13px 13px 13px 0;
+	border-style: outset solid solid solid;
+	border-color: transparent #DDD transparent transparent;
+	z-index: 1;
+}
+#WB li.search form:after {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0;
+	left: -13px;
+	border-width: 13px 13px 13px 0;
+	border-style: outset solid solid solid;
+	border-color: transparent #FAFAFA transparent transparent;
+	z-index: 2;
+}
+#WB li.search:hover form {
+	width: auto;
+	background-color: #F5F5F5;
+}
+#WB li.search:hover form:after {
+	border-right-color: #F5F5F5;
+}
+#WB li.search input[type=text] {
+	height: 20px;
+	width: 0;
+	margin: 3px 0;
+	color: #FAFAFA;
+	border: 1px solid #FAFAFA;
+	background-color: #FAFAFA;
+	transition: color .5s, width .5s;
+	-o-transition: color .5s, width .5s;
+	-moz-transition: color .5s, width .5s;
+	-webkit-transition: color .5s, width .5s;
+}
+#WB li.search input[type=text]:focus,
+#WB li.search:hover input[type=text] {
+	margin: 3px 8px;
+	margin-right: 34px;
+	color: black;
+	border-color: #CCC;
+	background-color: white;
+	width: 168px;
+}
+#WB li.search input[type=submit]{
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAALVBMVEX///9mZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmaSGrP3AAAAD3RSTlMAESIzVWZ3iJmqu8zd7v9cds+WAAAACXBIWXMAAArwAAAK8AFCrDSYAAAAH3RFWHRTb2Z0d2FyZQBNYWNyb21lZGlhIEZpcmV3b3JrcyA4tWjSeAAAAHtJREFUCJljYBA796aIAQiY9r2998YAyJB+O9Xz3iEgw+8aEL8AMtYtZGDgfCXAwLCvgIGBBaRoHZDBCmLM28jAwPUKpPiFAGPdMyBD8t2J6ndXgYqZ5r57d+fdZKAQy6ydwefAZjMKMOS9O8wABhLv3kAYjH3vGKBCLwCxwiq/DoIXaAAAAABJRU5ErkJggg==) no-repeat center center;
+
+	position: absolute;
+	border: none;
+	padding: 0;
+	top: 0;
+	right: 2px;
+	width: 26px;
+	height: 26px;
+	cursor: pointer;
+}
+		</style>
+	</head>
+	<body>
+		<div id="WB">
+			<ul>
+				<li class="appmenu">
+					<a class="blogger" href="http://www.blogger.com/"></a>
+					<a class="title" href="/">The Wook Book</a>
+					<div class="menu">
+						<hr/>
+					</div>
+				</li>
+				<li class="crumb"><a href="/search"><span>Search</span></a></li>
+				<li class="crumb"><a href="/search"><span>Result</span></a></li>
+				<li class="search">
+					<form action="/search">
+						<input name="q" type="text">
+						<input value type="submit">
+					</form>
+				</li>
+				<li class="social">
+					<div class="gplus"><span class="counter" count="1">1</span></div>
+					<div class="facebook"><span class="counter" count="2">2</span></div>
+					<div class="twitter"><span class="counter" count="0">0</span></div>
+					<div class="menu"></div>
+				</li>
+			</ul>
+		</div>
+		<div id="main" style="padding-top: 38px;">
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget nulla et eros ornare pretium in ut justo. Vestibulum eu vestibulum urna. In eu augue eu quam aliquam molestie non nec arcu. Aliquam erat volutpat. Nulla malesuada iaculis dolor in faucibus. Mauris in laoreet nibh. Curabitur libero augue, elementum vitae interdum id, convallis eu elit. Nam ligula sem, consequat eget hendrerit eu, rutrum fringilla odio. Pellentesque cursus, erat ut laoreet porttitor, dolor nunc convallis felis, eget placerat tellus urna id ligula. Fusce scelerisque ligula eu erat pellentesque facilisis vestibulum nisl venenatis. Curabitur consequat consequat nulla vitae rhoncus.
+			</p>
+
+			<p>
+				In nulla sem, dapibus eget feugiat non, dictum a erat. Mauris nulla magna, faucibus non congue ut, pretium sed tortor. Sed sit amet pulvinar ligula. Duis tempor diam eget odio semper id venenatis enim lobortis. Nulla aliquet massa sit amet metus eleifend eu euismod urna accumsan. Cras et dui sit amet odio ultricies consectetur quis venenatis mi. Duis ut nisi sem. In dui sapien, adipiscing eget sodales quis, facilisis nec libero. Cras adipiscing lacus quis metus aliquet lobortis. Quisque ultricies, orci eget sodales pharetra, arcu nisl tincidunt felis, ut luctus nibh libero non elit. Aenean et rutrum metus. Fusce id mi velit. Donec sagittis lorem ut turpis ultrices bibendum. Cras purus ligula, accumsan pharetra hendrerit eget, semper non lectus. Aenean vitae lectus ac arcu pretium feugiat. Vestibulum tincidunt ante ac magna tempor iaculis vestibulum orci tincidunt.
+			</p>
+
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras id tortor tincidunt quam consectetur rutrum vitae sed justo. In rutrum fermentum nisi eget sodales. Curabitur mauris tellus, blandit eu blandit quis, faucibus eget nibh. Sed leo magna, dapibus sit amet pretium at, egestas ut nulla. Nulla quis ipsum vel mi luctus condimentum at vel turpis. Suspendisse faucibus ligula eu mauris tempor nec gravida dolor venenatis. Sed tortor elit, egestas at sodales at, ultricies eget neque. Donec et mi vel arcu egestas tincidunt a vel augue. Phasellus ultricies consectetur sem eget ornare. Nullam turpis diam, dignissim eget iaculis rutrum, rhoncus tristique dolor. Maecenas sollicitudin massa ac erat mattis venenatis. Nunc laoreet ornare dui, quis tristique diam dapibus et. Curabitur ac vestibulum magna.
+			</p>
+
+			<p>
+				Morbi vel turpis et lectus cursus placerat ut et mauris. Fusce quis mauris ac ipsum aliquet elementum. Nam ut magna vel dui gravida bibendum. Morbi justo magna, malesuada vitae posuere nec, luctus non lacus. Sed feugiat lectus ac ante fermentum faucibus. Morbi scelerisque pretium tortor quis accumsan. Nunc rhoncus, libero et commodo lacinia, lacus ante vestibulum lorem, quis rutrum lectus enim in massa. Vestibulum in lacus sem. Duis gravida nulla id ligula porttitor malesuada imperdiet dui auctor. Etiam in iaculis sem. Proin consequat ipsum eget mauris consequat eu sagittis quam ultricies. Vestibulum ac dolor eget purus viverra interdum.
+			</p>
+
+			<p>
+				Proin in orci augue, et sodales nisl. Maecenas vehicula ligula sit amet massa dictum placerat. Suspendisse faucibus dui et odio pretium eget ornare neque fermentum. Maecenas metus purus, ultrices quis fringilla vulputate, vehicula vel risus. In lacinia, enim vitae tempus egestas, quam quam consequat lacus, et iaculis velit enim et tellus. In hac habitasse platea dictumst. Vestibulum commodo imperdiet tellus, sit amet condimentum urna pretium vel. Cras id mauris et eros tempus scelerisque. Donec ut pulvinar purus. Vestibulum vitae lectus mi, in condimentum dui. Fusce fermentum condimentum massa in scelerisque. Phasellus velit neque, porttitor et condimentum eget, imperdiet ut urna. Donec ac neque volutpat nisi tristique auctor.
+			</p>
+		</div>
+	</body>
+</html>

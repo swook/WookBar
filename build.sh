@@ -75,6 +75,7 @@ compile () {
 		done
 		if [ -e "../min/"$1".min."$4 ]; then
 			cat "../min/"$1".min."$4 >> "../pkg/"$3".min."$4
+			echo -e "\n" >> "../pkg/"$3".min."$4
 		fi
 		checked=("${checked[@]}" "$1")
 	elif [ -e $1 ]; then
