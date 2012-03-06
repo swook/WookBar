@@ -57,34 +57,33 @@ update_thirdparty () {
 	done
 }
 
-sassify () {
-	local f
-	for f in *.scss
-	do
-		if [ $f -nt "min/"${f/%".scss"/".min.css"} ]; then
-			sass $f":"${f/%".scss"/".css"}
-		fi
-	done
-}
-sassify
-
 minify () {
 	local f
 	local mf
+	local cf
 	for f in *.$1
 	do
-		mf="min/"${f/%"."$1/".min."$1}
+		if [ $1 = "scss" ]; then
+			mf="min/"${f/%"."$1/".min.css"}
+		else
+			mf="min/"${f/%"."$1/".min."$1}
+		fi
 		if [ $f -nt $mf ]; then
-			# compress and gzip
 			echo "- Minifying: "$f
-			yui-compressor --type $1 $f > $mf
+			if [ $1 = "scss" ]; then
+				cf=${f/%"."$1/".css"}
+				sass $f":"$cf
+				yui-compressor --type "css" $cf > $mf
+				rm $cf
+			else
+				yui-compressor --type $1 $f > $mf
+			fi
 		fi
 	done
 }
 # For all non-minified js files
 minify "js"
-minify "css"
-rm *.css
+minify "scss"
 
 
 checked=()
