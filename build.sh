@@ -57,6 +57,16 @@ update_thirdparty () {
 	done
 }
 
+sassify () {
+	local f
+	for f in *.scss
+	do
+		if [ $f -nt "min/"${f/%".scss"/".min.css"} ]; then
+			sass $f":"${f/%".scss"/".css"}
+		fi
+	done
+}
+sassify
 
 minify () {
 	local f
@@ -74,10 +84,8 @@ minify () {
 # For all non-minified js files
 minify "js"
 minify "css"
+rm *.css
 
-
-# Go to package config directory
-cd pkgcfg
 
 checked=()
 changed=""
