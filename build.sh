@@ -68,6 +68,9 @@ minify () {
 		else
 			mf="min/"${f/%"."$1/".min."$1}
 		fi
+		if [ ! -d "min/" ]; then
+			mkdir "min/"
+		fi
 		if [ $f -nt $mf ]; then
 			echo "- Minifying: "$f
 			if [ $1 = "scss" ]; then
