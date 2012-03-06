@@ -75,7 +75,7 @@ minify () {
 			echo "- Minifying: "$f
 			if [ $1 = "scss" ]; then
 				cf=${f/%"."$1/".css"}
-				sass $f":"$cf
+				sass --trace $f $cf -r ./thirdparty/bourbon/lib/bourbon.rb
 				yui-compressor --type "css" $cf > $mf
 				rm $cf
 			else
