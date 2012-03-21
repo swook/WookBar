@@ -34,23 +34,25 @@ update_thirdparty () {
 	do
 		url=${third_party_url[$i]}
 		f=${url##*/}
-		if [[ $f != *".min.js" ]]; then
-			mf=${f/%".js"/".min.js"}
-		fi
-		if [ "$f" = "$1" ] || [ "$mf" = "$1" ]; then
-			if ${third_party_done[$i]}; then
+		if [[ $f == *"."$2 ]]; then
+			if [[ $f != *".min.js" ]]; then
+				mf=${f/%".js"/".min.js"}
+			fi
+			if [ "$f" = "$1" ] || [ "$mf" = "$1" ]; then
+				if ${third_party_done[$i]}; then
+					return
+				fi
+				echo "- Updating: "$f
+				wget -Nnv "$url"
+				if [[ $mf > "" ]]; then
+					if [ $f -nt $mf ]; then
+						echo "- Minifying: "$f
+						yui-compressor $f > $mf
+					fi
+				fi
+				third_party_done[$i]=true
 				return
 			fi
-			echo "- Updating: "$f
-			wget -Nnv "$url"
-			if [[ $mf > "" ]]; then
-				if [ $f -nt $mf ]; then
-					echo "- Minifying: "$f
-					yui-compressor $f > $mf
-				fi
-			fi
-			third_party_done[$i]=true
-			return
 		fi
 		mf=""
 		i=$(( $i + 1 ))
@@ -115,7 +117,7 @@ compilechk () {
 compile () {
 	if [[ $1 == "../thirdparty/"* ]]; then
 		cd ../thirdparty
-		update_thirdparty ${1##*/}".min.js"
+		update_thirdparty ${1##*/}".min.js" $4
 		cd ../pkgcfg
 	fi
 	if [ ! -e $1 -a -e "../min/"$1".min."$4 ] || [ "$1" = "$2" ]; then
