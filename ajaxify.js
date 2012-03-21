@@ -1,8 +1,18 @@
 /*!
-   jQuery WookBar for Blogger
+   WookBar for Blogger
    - Ajaxify
  */
 
+(function(WB, $, undefined) {
+	var UI = WB.UI,
+		data = WB.data,
+		elem = WB.elem,
+		util = WB.util;
+
+	$.Ajaxify.parseUri = util.parseURL;
+}(window.WB = window.WB || {}, jQuery));
+
+/*
 WB.load = function(url) {
 	url = $.Ajaxify.parseUri(url);
 	if (url.full != $.Ajaxify.current_url.full) WB.showProgress();
@@ -270,3 +280,4 @@ WB.Ajaxify = {
 $.Ajaxify.onClick = WB.Ajaxify.onClick;
 $.Ajaxify.pageChange(WB.Ajaxify.pageChange);
 $(document).ready(WB.Ajaxify.init);
+*/

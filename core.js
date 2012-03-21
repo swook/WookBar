@@ -1,5 +1,5 @@
 /*!
-   jQuery WookBar for Blogger
+   WookBar for Blogger
    - Core File
  */
 

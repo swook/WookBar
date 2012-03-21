@@ -164,7 +164,7 @@ compile_packages () {
 
 			if [[ "$changed" > "" ]]; then
 				# Clear and attach header to package
-				cat "../header" > $mf$t
+				cat "../HEADER" > $mf$t
 
 				# Compile dependencies
 				checked=()

@@ -1,5 +1,5 @@
 /*!
-   jQuery WookBar for Blogger
+   WookBar for Blogger
 
    Author:  Seon-Wook Park
    Site:    http://www.swook.net/
