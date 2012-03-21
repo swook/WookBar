@@ -3,6 +3,149 @@
    - Core File
  */
 
+(function(WB, $, undefined) {
+	var util = WB.util;
+
+	var init = {
+		onParse: function() {
+			data.init();
+			UI.core.init();
+		},
+		onReady: function() {
+			var bloggerData = _WidgetManager._GetAllData().blog;
+			data.blog = {
+				title: bloggerData.title,
+				homepage: bloggerData.canonicalHomepageUrl,
+				id: blogger_blog_id
+			};
+			UI.core.fillDetails();
+		}
+	};
+	WB.init = init;
+
+	var data = {
+		persistentKeys: ['etag', 'blog', 'page', 'post'],
+		ready: false,
+		page: [],
+		post: [],
+		init: function() {
+			data.load();
+			data.getFeedData();
+		},
+		save: function() {
+			if (!$.jStorage.storageAvailable()) return;
+			var local = {};
+			$.each(data.persistentKeys, function(i, e) {
+				local[e] = data[e];
+			});
+			$.jStorage.set('WB', local);
+		},
+		load: function() {
+			var local = $.jStorage.get('WB');
+			if (!local) return;
+			$.each(local, function(k, v) {
+				if (data.persistentKeys.indexOf(k) > -1) {
+					data[k] = v;
+				}
+			});
+		},
+		getFeedData: function() {
+			var parseEntries = function(json, type) {
+				var result;
+				$.each(json, function(idx, val) {
+					result = {};
+					result.id = idx;
+					result.date = new Date(val.published.$t);
+					result.title = val.title.$t;
+					result.content = val.content.$t;
+					result.link = val.link[val.link.length-1].href;
+					result.labels = [];
+					result.labelsLower = [];
+					if ('media$thumbnail' in val) result.thumbnail = val.media$thumbnail.url;
+					if (val.category) {
+						$.each(val.category, function(i, l) {
+							result.labels.push(l.term);
+							result.labelsLower.push(l.term.toLowerCase());
+						});
+					}
+					data[type].push(result);
+				});
+				result = null;
+			};
+			var ready = {
+				page: false,
+				post: false
+			}
+			var getFeed = function(type, other) {
+				var etag;
+				$.getJSON(
+					'/feeds/'+type+'s/default?orderby=published&v=2&dynamicviews=1&alt=json',
+					function(json) {
+						etag = json.feed.gd$etag
+						if (etag != data.etag) parseEntries(json.feed.entry, type);
+						ready[type] = true;
+
+						if (ready[other] == true) {
+							if (etag != data.etag) {
+								data.etag = json.feed.gd$etag;
+								data.save();
+							}
+							data.ready = true;
+						}
+						json = null;
+					}
+				).error(function(e) {
+					util.setDelay(getFeed, 500, type, other);
+				});
+			}
+			getFeed('post', 'page');
+			getFeed('page', 'post');
+		}
+	};
+	WB.data = data;
+
+	var elem = {};
+	WB.elem = elem;
+
+	var UI = {
+		core: {
+			init_done: false,
+			init: function() {
+				$('<div id="WB"><ul><li class="appmenu"><a class="blogger" href="http://www.blogger.com/" title="Go to Blogger.com"></a><a class="title"></a><div class="menu"><hr/></div></li><li class="search"><form action="/search"><input name="q" type="text" placeholder="Search "><input value type="submit"></form></li></ul></div>').insertBefore($('#navbar'));
+				elem.main = $('#WB');
+				elem.appmenu = { main: $('li.appmenu', elem.main) };
+				elem.appmenu.blogger = $('a.blogger', elem.appmenu.main);
+				elem.appmenu.title =  $('a.title', elem.appmenu.main);
+				elem.search = { main: $('li.search', elem.main) };
+				elem.search.form = $('form', elem.search.main);
+				elem.search.input = $('input[type=text]', elem.search.form);
+				elem.search.submit = $('input[type=submit]', elem.search.form);
+				UI.core.init_done = true;
+				UI.core.fillDetails();
+			},
+			filledDetails: false,
+			fillDetails: function() {
+				if (UI.core.filledDetails || (!('blog' in data))) return;
+
+				elem.appmenu.title.html(data.blog.title).attr('href', data.blog.homepage);
+				elem.search.input.attr('placeholder', 'Search '+ data.blog.title);
+
+				UI.core.reveal();
+				UI.core.filledDetails = true;
+			},
+			reveal: function() {
+				if (document.referrer.length && util.parseURL().host == util.parseURL(document.referrer).host) elem.main.show();
+				else elem.main.fadeIn();
+			}
+		}
+	};
+	WB.UI = UI;
+
+	init.onParse();
+	$(document).ready(init.onReady);
+}(window.WB = window.WB || {}, jQuery));
+
+/*
 var WB = {
 	l: '#mynavbar .right .cont a',
 	u: '#mynavbar .right .cont',
@@ -431,3 +574,4 @@ var WB = {
 	},
 };
 $(document).ready(WB.init);
+*/
