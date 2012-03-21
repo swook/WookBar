@@ -3,6 +3,25 @@
    - Social Buttons
  */
 
+(function(WB, $, undefined) {
+	var data = WB.data,
+		util = WB.util;
+
+	function init() {
+	}
+
+	var elem = {
+		main: $('li.social', WB.elem.main),
+	};
+	elem.menu = $('div.menu', elem.main);
+
+	var UI = {
+	};
+}(window.WB = window.WB || {}, jQuery));
+
+// $.getJSON("http://query.yahooapis.com/v1/public/yql?q=USE%20'http%3A%2F%2Ffiles.swook.net%2Fsocialcount.xml'%20AS%20remote%3B%20SELECT%20*%20from%20remote%20WHERE%20url%3D'http%3A%2F%2Fwww.google.com%2F'&format=json&jsonCompat=new", function(data){console.log(data.query.results.result);});
+
+/*
 WB.social = {
 	load: {
 		facebook: function(e, url) {
@@ -56,3 +75,4 @@ WB.social = {
 }
 
 $(document).ready(WB.social.load.all);
+*/
