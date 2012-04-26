@@ -1,4 +1,4 @@
-/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | util.js */
+/*! WookBar by Seon-Wook Park (www.swook.net) | CC BY-NC-SA | util.js */
 
 (function(WB, $, undefined) {
 	var urlcache = {};

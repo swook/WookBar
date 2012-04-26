@@ -1,4 +1,4 @@
-/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | social.js */
+/*! WookBar by Seon-Wook Park (www.swook.net) | CC BY-NC-SA | social.js */
 
 (function(WB, $, undefined) {
 	var data = WB.data,

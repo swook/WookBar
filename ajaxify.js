@@ -1,4 +1,4 @@
-/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | ajaxify.js */
+/*! WookBar by Seon-Wook Park (www.swook.net) | CC BY-NC-SA | ajaxify.js */
 
 (function(WB, $, undefined) {
 	var UI = WB.UI,

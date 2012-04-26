@@ -178,7 +178,10 @@ compilechk_css () {
 	fi
 	if [[ $1 == $dir_pkgcfg* ]]; then
 		for l in $(cat $1); do
-			compilechk_css $l $2
+			if [[ $(compilechk_css $l $2) == true ]]; then
+				echo true
+				return
+			fi
 		done
 	else
 		local t
