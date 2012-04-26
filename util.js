@@ -1,7 +1,4 @@
-/*!
-   WookBar for Blogger
-   - Utility Functions
- */
+/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | util.js */
 
 (function(WB, $, undefined) {
 	var urlcache = {};

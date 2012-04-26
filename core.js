@@ -1,7 +1,4 @@
-/*!
-   WookBar for Blogger
-   - Core File
- */
+/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | core.js */
 
 (function(WB, $, undefined) {
 	var util = WB.util;
@@ -19,6 +16,7 @@
 				id: blogger_blog_id
 			};
 			UI.core.fillDetails();
+			handler.attachAll();
 		}
 	};
 	WB.init = init;
@@ -111,15 +109,13 @@
 		core: {
 			init_done: false,
 			init: function() {
-				$('<div id="WB"><ul><li class="appmenu"><a class="blogger" href="http://www.blogger.com/" title="Go to Blogger.com"></a><a class="title"></a><div class="menu"><hr/></div></li><li class="search"><form action="/search"><input name="q" type="text" placeholder="Search "><input value type="submit"></form></li></ul></div>').insertBefore($('#navbar'));
+				$('<div id="WB"><ul><li class="appmenu"><div class="bar-bg"><div class="bg"/><div class="onhover"/></div><a class="blogger" href="http://www.blogger.com/" title="Go to Blogger.com"></a><a class="title"></a><div class="menu"><hr/>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></li><li class="search"><form action="/search"><input name="q" type="text" placeholder="Search "><input value type="submit"></form><div class="results"><div class="result">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></div></li></ul></div>').insertBefore($('#navbar'));
 				elem.main = $('#WB');
 				elem.appmenu = { main: $('li.appmenu', elem.main) };
-				elem.appmenu.blogger = $('a.blogger', elem.appmenu.main);
 				elem.appmenu.title =  $('a.title', elem.appmenu.main);
 				elem.search = { main: $('li.search', elem.main) };
 				elem.search.form = $('form', elem.search.main);
 				elem.search.input = $('input[type=text]', elem.search.form);
-				elem.search.submit = $('input[type=submit]', elem.search.form);
 				UI.core.init_done = true;
 				UI.core.fillDetails();
 			},
@@ -140,6 +136,17 @@
 		}
 	};
 	WB.UI = UI;
+
+	var handler = {
+		attachAll: function() {
+			elem.main.click(handler.main.click);
+		},
+		main: {
+			click: function(e) {
+				e.stopPropagation();
+			}
+		}
+	}
 
 	init.onParse();
 	$(document).ready(init.onReady);

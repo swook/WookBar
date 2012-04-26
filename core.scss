@@ -1,26 +1,4 @@
-@import 'thirdparty/bourbon/bourbon';
-
-$bar-height: 26px;
-
-$color-blogger-start: #FDA352;
-$color-blogger-end: #FB8F3D;
-$color-blogger-hover-start: #FD934D;
-$color-blogger-hover-end: #F9760B;
-
-$color-text: #333;
-$color-bg: #F1F1F1;
-$color-bg-hover: #F8F8F8;
-$color-border: #DDD;
-
-@mixin transition ($transition-1, $transition-2: false, $transition-3: false, $transition-4: false, $transition-5: false, $transition-6: false, $transition-7: false, $transition-8: false, $transition-9: false) {
-	$full: compact($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9);
-
-	-webkit-transition: $full;
-	-moz-transition: $full;
-	-ms-transition: $full;
-	-o-transition: $full;
-	transition: $full;
-}
+/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | core.css */
 
 #navbar iframe {
 	display: none !important;
@@ -36,7 +14,7 @@ $color-border: #DDD;
 	border-bottom: 1px solid $color-border;
 	z-index: 100;
 	ul {
-		@include background-image(linear-gradient(rgba(240,240,240,.9), rgba(255,255,255,.9)));
+		@include background-image(linear-gradient(rgba(240,240,240,.7), rgba(255,255,255,.7)));
 		list-style: none;
 		position: relative;
 		margin: 0;
@@ -57,31 +35,61 @@ $color-border: #DDD;
 		}
 		div.menu {
 			position: absolute;
+			max-height: 0;
 			padding: 0 5px;
-			opacity: 0;
-			height: 0;
 			top: $bar-height;
 			left: -1px;
 			border: 1px solid $color-border;
 			border-top: 0;
 			background-color: $color-bg;
-			@include transition(height .5s, background-color .5s, opacity .5s);
+			overflow: hidden;
+			@include transition(max-height .5s, background-color .5s);
 		}
 		&:hover div.menu {
-			opacity: 1;
 			background-color: $color-bg-hover;
 		}
 		&.appmenu {
-			@include background-image(linear-gradient($color-blogger-start, $color-blogger-end));
 			width: auto;
-			&:hover {
-				@include background-image(linear-gradient($color-blogger-hover-start, $color-blogger-hover-end));
+			&.hover {
+				div.bar-bg div.onhover {
+					opacity: 1;
+				}
+				a.title {
+					border-left-color: $color-blogger-hover-start;
+				}
+				div.menu {
+					max-height: 300px;
+					background-color: $color-blogger-hover-end;
+				}
+			}
+			div.bar-bg {
+				position: absolute;
+				width: 100%;
+				div.bg,
+				div.onhover {
+					position: absolute;
+					z-index: 100;
+					width: 100%;
+					height: $bar-height;
+				}
+				div.bg {
+					@include background-image(linear-gradient($color-blogger-start, $color-blogger-end));
+				}
+				div.onhover {
+					opacity: 0;
+					@include transition(opacity .5s);
+					@include background-image(linear-gradient($color-blogger-hover-start, $color-blogger-hover-end));
+				}
 			}
 			a {
-				&.blogger {
+				&.blogger,
+				&.title {
 					display: inline-block;
+					position: relative;
+					z-index:101;
+				}
+				&.blogger {
 					background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAKlBMVEX///////////////////////////////////////////////////////9q+00tAAAADXRSTlMAESIzRGaImaq7zN3uKN6begAAAAlwSFlzAAAK8AAACvABQqw0mAAAAB90RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgOLVo0ngAAABoSURBVAjXY2CAA8u7d+8WAWnms0DGLQEGBs67IJDAwMB799aqvXcPgBgbGGzuXgQx7pw5e/fOYSADDK4gM26vAqq+AlbMwApmnCgvrwIyIAbevczAchbMaGBg8DoDBNuBtjIaA4ECAwB2lET/m2cLpQAAAABJRU5ErkJggg==") no-repeat center center;
-					height: $bar-height;
 					width: $bar-height+2px;
 					float: left;
 					opacity: .8;
@@ -91,41 +99,33 @@ $color-border: #DDD;
 					}
 				}
 				&.title {
-					display: inline-block;
 					border-left: 1px solid $color-blogger-start;
 					border-right: 1px solid $color-blogger-end;
 					padding: 0 14px 0 10px;
 					color: white;
-					@include transition(text-shadow .5s);
+					@include transition(text-shadow .5s, border-left-color .5s);
 					&:hover {
 						text-shadow: white 0 0 1px;
 					}
 				}
 			}
-			&:hover a.title {
-				border-left: 1px solid $color-blogger-hover-start;
-			}
 			div.menu {
 				width: 100%;
 				padding: 0;
 				border-right: 0;
-				background-color: $color-blogger-hover-end;
+				background-color: $color-blogger-end;
 				@include border-bottom-right-radius(3px);
-			}
-			&:hover div.menu {
-				height: 120px;
-				background-color: $color-blogger-hover-end;
-			}
-			div.menu hr {
-				border: 0;
-				width: 75%;
-				height: 1px;
-				margin-top: 3px;
-				margin-bottom: 3px;
-				background-color: $color-blogger-hover-start;
-				&:first-child {
-					margin-top: 0;
-					width: 100%;
+				hr {
+					border: 0;
+					width: 75%;
+					height: 1px;
+					margin-top: 3px;
+					margin-bottom: 3px;
+					background-color: $color-blogger-hover-start;
+					&:first-child {
+						margin-top: 0;
+						width: 100%;
+					}
 				}
 			}
 			+ li.crumb a {
@@ -175,7 +175,23 @@ $color-border: #DDD;
 			}
 		}
 		&.search {
+			$exwidth: 218px;
 			float: right;
+			&.focus,
+			&:hover {
+				form {
+					width: $exwidth;
+					background-color: $color-bg-hover;
+					&:after {
+						border-right-color: $color-bg-hover;
+					}
+				}
+				div.results {
+					visibility: visible;
+					opacity: 1;
+					@include transition(visibility 0s, opacity .5s);
+				}
+			}
 			form {
 				position: relative;
 				line-height: 16px;
@@ -205,14 +221,6 @@ $color-border: #DDD;
 					border-color: transparent $color-bg transparent transparent;
 					z-index: 2;
 				}
-				&.focus,
-				&:hover {
-					width: 218px;
-					background-color: $color-bg-hover;
-					&:after {
-						border-right-color: $color-bg-hover;
-					}
-				}
 			}
 			input[type=text] {
 				display: inline-block;
@@ -230,7 +238,7 @@ $color-border: #DDD;
 			&:hover input[type=text] {
 				margin-left: 8px;
 				margin-right: 32px;
-				width: 168px;
+				width: $exwidth - 50px;
 				color: $color-text;
 				border-color: darken($color-bg-hover, 5%);
 				background-color: lighten($color-bg-hover, 2%);
@@ -242,7 +250,7 @@ $color-border: #DDD;
 			}
 			input[type=submit] {
 				background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAALVBMVEX///9mZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmaSGrP3AAAAD3RSTlMAESIzVWZ3iJmqu8zd7v9cds+WAAAACXBIWXMAAArwAAAK8AFCrDSYAAAAH3RFWHRTb2Z0d2FyZQBNYWNyb21lZGlhIEZpcmV3b3JrcyA4tWjSeAAAAHtJREFUCJljYBA796aIAQiY9r2998YAyJB+O9Xz3iEgw+8aEL8AMtYtZGDgfCXAwLCvgIGBBaRoHZDBCmLM28jAwPUKpPiFAGPdMyBD8t2J6ndXgYqZ5r57d+fdZKAQy6ydwefAZjMKMOS9O8wABhLv3kAYjH3vGKBCLwCxwiq/DoIXaAAAAABJRU5ErkJggg==") no-repeat center center;
-				position: absolute;
+				position: fixed;
 				border: none;
 				padding: 0;
 				top: 0;
@@ -254,220 +262,20 @@ $color-border: #DDD;
 				text-transform: capitalize;
 				background-color: inherit;
 			}
+			div.results {
+				position: fixed;
+				visibility: hidden;
+				opacity: 0;
+				width: $exwidth;
+				right: -20px;
+				max-height: 0;
+				overflow-y: auto;
+				padding-right: 20px;
+				border-left: 1px solid $color-border;
+				border-bottom: 1px solid $color-border;
+				background-color: $color-bg-hover;
+				@include transition(visibility 0s .5s, opacity .5s);
+			}
 		}
 	}
 }
-
-#mynavbar {
-  position: fixed;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  .topbar {
-    background: rgb(255, 255, 255);
-    background: rgba(255, 255, 255, 0.9);
-    font-family: Cagliostro;
-    color: black;
-    height: $bar-height;
-    width: 100%;
-    line-height: $bar-height;
-    padding: 0 8px;
-    border-bottom: 1px solid #DDD; }
-  .left {
-    float: left;
-    padding: 0 2px;
-    width: 60%; }
-  a {
-    &.blogger-logo {
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      background: url("http://img1.blogblog.com/img/navbar/icons_orange.png") -$bar-height center no-repeat;
-      background-color: #F23600;
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
-      margin: 3px 90px 3px 0;
-      top: 0 !important;
-      opacity: .5;
-      &:hover {
-        opacity: 1; } }
-    &.home {
-      position: relative;
-      font-size: 21px;
-      font-weight: 500 !important;
-      padding: 2px 3px;
-      top: -5px;
-      color: black; }
-    &.page {
-      display: inline-block;
-      position: absolute;
-      height: $bar-height;
-      top: 0px;
-      color: #555;
-      font-size: 16px;
-      font-weight: 400;
-      margin: 0 4px;
-      max-width: 38%;
-      white-space: nowrap;
-      overflow-x: hidden;
-      text-overflow: ellipsis; }
-    &.nextblog {
-      position: absolute;
-      display: inline-block;
-      color: white;
-      font: bold 11px arial,sans-serif !important;
-      line-height: 20px !important;
-      margin: 3px 0 3px -93px;
-      background-color: #F26300;
-      border-left: 1px solid #F48522;
-      padding-left: 10px;
-      height: 20px;
-      opacity: .5;
-      top: 0;
-      &:after {
-        content: "";
-        position: relative;
-        float: right;
-        top: 0;
-        left: 10px;
-        width: 0;
-        height: 0;
-        border-color: transparent transparent transparent #F26300;
-        border-style: solid;
-        border-width: 10px 0 10px 10px; }
-      &:hover {
-        opacity: 1; } } }
-  .left a:hover {
-    text-decoration: none; }
-  .right {
-    float: right;
-    padding-top: 1px;
-    padding-right: 25px; }
-  .search {
-    opacity: 1;
-    background-color: white;
-    box-shadow: 0 0 1px #DDD;
-    line-height: 14px;
-    @include border-radius(10px);
-    border: 1px solid #DDD;
-    padding: 0px 8px;
-    margin: 2px 2px;
-    width: 180px;
-    margin-left: auto; } }
-
-#topbar-search {
-  border: none;
-  outline: none;
-  width: 160px;
-  margin: 0 0;
-  padding: 0 0;
-  font-size: 12px;
-  display: inline-block; }
-
-.defaultInput {
-  color: #999; }
-
-#mynavbar {
-  .right {
-    .cont {
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -o-user-select: none;
-      user-select: none;
-      background: white;
-      position: absolute;
-      top: $bar-height;
-      right: 2px;
-      opacity: 1;
-      border: solid 1px #DDD;
-      margin: 0 0;
-      padding: 0 0;
-      width: 240px;
-      border-top: 0;
-      list-style-type: none;
-      overflow: hidden;
-      .shadow {
-        position: fixed;
-        width: 240px;
-        background-repeat: repeat-x;
-        background-image: url('http://cdn.swook.net/css/shadow.png'); }
-      .topshadow {
-        display: none;
-        height: $bar-height;
-        background-size: 240px $bar-height;
-        top: $bar-height; }
-      .bottomshadow {
-        display: none;
-        height: 30px;
-        background-size: 240px 30px;
-        bottom: 0;
-        transform: rotate(180deg);
-        -ms-transform: rotate(180deg);
-        /* Internet Explorer */
-        -moz-transform: rotate(180deg);
-        /* Firefox */
-        -webkit-transform: rotate(180deg);
-        /* Safari and Chrome */
-        -o-transform: rotate(180deg);
-        /* Opera */ }
-      .scrollbar {
-        position: fixed;
-        width: 3px;
-        top: $bar-height;
-        right: 0;
-        background-color: #995815;
-        border-left: 1px solid #AA7937; }
-      a {
-        line-height: 1.2em;
-        margin: 0 0;
-        padding: 11px 9px;
-        display: block;
-        color: black;
-        background-color: white;
-        border-bottom: solid 1px #DDD; } }
-    a {
-      &:hover, &.hover {
-        border-left: 2px solid #995815;
-        padding-left: 7px;
-        text-decoration: none; }
-      &.nohover {
-        padding-left: 9px !important;
-        border-left: none !important; } }
-    .cont {
-      a img.thumbnail {
-        width: 36px;
-        height: 36px;
-        margin: 6px 8px 5px 2px;
-        vertical-align: middle;
-        float: left; }
-      div.date {
-        margin-top: -2px;
-        margin-bottom: -16px;
-        padding: 1px 9px 0 9px;
-        text-align: right;
-        font-weight: 500;
-        font-size: 11px;
-        color: #666; }
-      a {
-        div.title {
-          font-weight: 500;
-          font-size: 14px;
-          height: 17px;
-          white-space: nowrap;
-          overflow-x: hidden;
-          text-overflow: ellipsis; }
-        p.desc {
-          padding: 0;
-          height: 44px;
-          overflow: hidden;
-          margin: 2px 0 2px 5px;
-          font-family: sans-serif; } } } }
-  .magni {
-    border: none;
-    display: inline-block;
-    position: relative;
-    height: 100%;
-    width: 13px;
-    cursor: pointer;
-    background: url('http://cdn.swook.net/css/magni.png') no-repeat center; } }

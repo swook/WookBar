@@ -1,7 +1,4 @@
-/*!
-   WookBar for Blogger
-   - Social Buttons
- */
+/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | social.js */
 
 (function(WB, $, undefined) {
 	var data = WB.data,

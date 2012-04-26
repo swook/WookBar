@@ -1,20 +1,23 @@
 #!/bin/bash
 
+dir_pkg="pkg/"
+dir_pkgcfg=$dir_pkg"cfg/"
+dir_min="min/"
+dir_tparty="thirdparty/"
+dir_theme="theme/"
+
 third_party_url=()
 third_party_done=()
 get_thirdparty_list () {
-	cd thirdparty/
 	local url
 	local f
-	for url in `cat list`
-	do
+	for url in $(cat $dir_tparty"list"); do
 		if [ "${url:0:1}" = "#" ]; then
 			continue
 		fi
 		third_party_url=("${third_party_url[@]}" "$url")
 		third_party_done=(${third_party_done[@]} false)
 	done
-	cd ..
 }
 get_thirdparty_list
 
@@ -30,8 +33,7 @@ update_thirdparty () {
 	local mf
 	local output
 
-	while [ $i -lt $n ]
-	do
+	while [ $i -lt $n ]; do
 		url=${third_party_url[$i]}
 		f=${url##*/}
 		if [[ $f == *"."$2 ]]; then
@@ -43,6 +45,7 @@ update_thirdparty () {
 					return
 				fi
 				echo "- Updating: "$f
+				cd $dir_tparty
 				wget -Nnv "$url"
 				if [[ $mf > "" ]]; then
 					if [ $f -nt $mf ]; then
@@ -51,6 +54,7 @@ update_thirdparty () {
 					fi
 				fi
 				third_party_done[$i]=true
+				cd ..
 				return
 			fi
 		fi
@@ -59,127 +63,203 @@ update_thirdparty () {
 	done
 }
 
-minify () {
+if [ ! -d $dir_min ]; then
+	mkdir $dir_min
+fi
+
+minify_js () {
 	local f
 	local mf
-	local cf
-	for f in *.$1
-	do
-		if [ $1 = "scss" ]; then
-			mf="min/"${f/%"."$1/".min.css"}
-		else
-			mf="min/"${f/%"."$1/".min."$1}
-		fi
-		if [ ! -d "min/" ]; then
-			mkdir "min/"
-		fi
+	for f in *.js; do
+		mf=$dir_min${f/%".js"/".min.js"}
 		if [ $f -nt $mf ]; then
 			echo "- Minifying: "$f
-			if [ $1 = "scss" ]; then
-				cf=${f/%"."$1/".css"}
-				sass --trace $f $cf -r ./thirdparty/bourbon/lib/bourbon.rb
-				yui-compressor --type "css" $cf > $mf
-				rm $cf
-			else
-				yui-compressor --type $1 $f > $mf
-			fi
+			yui-compressor --type js $f > $mf
 		fi
 	done
 }
 # For all non-minified js files
-minify "js"
-minify "scss"
+minify_js
+
+
+themes=()
+get_themes () {
+	local t
+	for t in $dir_theme*; do
+		t=${t##*/}
+		if [ "$t" != "common.scss" ]; then
+			themes=("${themes[@]}" "${t%%.*}")
+		fi
+	done
+}
+minify_scss () {
+	local f
+	local mf
+	local cf
+	local t
+	local tf
+	for f in *.scss; do
+		for t in ${themes[@]}; do
+			mf=$dir_min$t.${f/%".scss"/".min.css"}
+			if [ $f -nt $mf ] || [ $dir_theme$t".scss" -nt $mf ] || [ $dir_theme"common.scss" -nt $mf ]; then
+				echo "- Minifying: $f ($t)"
+				tf=${f/%".scss"/".$t.scss"}
+				cf=${f/%".scss"/".$t.css"}
+				cat $dir_theme"common.scss" $dir_theme$t".scss" $f > $tf
+				sass --trace --style compressed $tf $cf -r $dir_tparty/bourbon/lib/bourbon.rb
+				yui-compressor --type "css" $cf > $mf
+				rm $tf $cf
+			fi
+		done
+	done
+}
+get_themes
+minify_scss
 
 
 checked=()
 changed=""
+check() {
+	local c
+	for c in "${checked[@]}"; do
+		if [ "$c" == "$1" ]; then
+			echo true
+			return
+		fi
+	done
+	echo false
+}
 compilechk () {
-	if [ ! -e $1 -a -e "../min/"$1".min."$4 ] || [ "$1" = "$2" ]; then
-		for c in "${checked[@]}"
-		do
-			if [ "$c" == "$1" ]; then
-				return
-			fi
-		done
-		if [ -e "../min/"$1".min."$4 ]; then
-			if [ "../min/"$1".min."$4 -nt "../pkg/"$3".min."$4 ]; then
+	local n=$1
+	n=${n##*/}
+	if [ ! -f $1 -a -f $dir_min$n".min.js" ]; then
+		if $(check $1); then
+			return
+		fi
+		if [ -f $dir_min$n".min.js" ]; then
+			if [ $dir_min$n".min.js" -nt $dir_pkg$2".min.js" ]; then
 				changed=$1
 			fi
 		fi
 		checked=("${checked[@]}" "$1")
-	elif [ -e $1 ]; then
-		for l in `cat $1`
-		do
-			compilechk $l $1 $3 $4
+	elif [ -f $1 ]; then
+		for l in $(cat $1); do
+			compilechk $l $2
 		done
 	fi
 }
 compile () {
-	if [[ $1 == "../thirdparty/"* ]]; then
-		cd ../thirdparty
-		update_thirdparty ${1##*/}".min.js" $4
-		cd ../pkgcfg
+	local n=$1
+	n=${n##*/}
+	if $(check $1); then
+		return
 	fi
-	if [ ! -e $1 -a -e "../min/"$1".min."$4 ] || [ "$1" = "$2" ]; then
-		for c in "${checked[@]}"
-		do
-			if [ "$c" == "$1" ]; then
-				return
-			fi
-		done
-		if [ -e "../min/"$1".min."$4 ]; then
-			cat "../min/"$1".min."$4 >> "../pkg/"$3".min."$4
-			echo -e "\n" >> "../pkg/"$3".min."$4
+	if [[ $1 == $dir_tparty* ]]; then
+		update_thirdparty $n".min.js"
+		cat $dir_tparty$n".min.js" >> $dir_pkg$2".min.js"
+		echo -e "\n" >> $dir_pkg$2".min.js"
+		checked=("${checked[@]}" "$1")
+	elif [ ! -f $1 -a -f $dir_min$n".min.js" ]; then
+		if [ -f $dir_min$n".min.js" ]; then
+			cat $dir_min$n".min.js" >> $dir_pkg$2".min.js"
+			echo -e "\n" >> $dir_pkg$2".min.js"
 		fi
 		checked=("${checked[@]}" "$1")
-	elif [ -e $1 ]; then
-		for l in `cat $1`
-		do
-			compile $l $1 $3 $4
+	elif [ -f $1 ]; then
+		for l in $(cat $1); do
+			compile $l $2
 		done
 	fi
 }
 
-compile_packages () {
-	# Go to package config directory
-	cd pkgcfg/
+compilechk_css () {
+	if $(check $1); then
+		return
+	fi
+	if [[ $1 == $dir_pkgcfg* ]]; then
+		for l in $(cat $1); do
+			compilechk_css $l $2
+		done
+	else
+		local t
+		if $(check $1); then
+			return
+		fi
+		for t in ${themes[@]}; do
+			if [ ! -f $dir_min$t.$1.min.css ]; then
+				return
+			fi
+			checked=("${checked[@]}" "$1")
+			if [ $dir_min$t.$1.min.css -nt $dir_pkg$t.$2.min.css ]; then
+				echo true
+				return
+			fi
+		done
+	fi
+}
 
+compile_css () {
+	if $(check $1); then
+		return
+	fi
+	if [[ $1 == $dir_pkgcfg* ]]; then
+		for l in $(cat $1); do
+			compile_css $l $2
+		done
+	else
+		local t
+		if $(check $1); then
+			return
+		fi
+		for t in ${themes[@]}; do
+			if [ ! -f $dir_min$t.$1.min.css ]; then
+				return
+			fi
+			if [ ${#checked[@]} = 0 ]; then
+				cat "HEADER" > $dir_pkg$t.$2.min.css
+				echo "- Compiled: $dir_pkg$t.$2.min.css"
+			fi
+			cat $dir_min$t.$1.min.css >> $dir_pkg$t.$2.min.css
+		done
+		checked=("${checked[@]}" "$1")
+	fi
+}
+
+compile_packages () {
 	# For all config files
 	local f
 	local mf
 	local t
 	local l
-	for f in *
-	do
+	local n
+	for f in $dir_pkgcfg*; do
 		# Target package output
-		mf="../pkg/"$f".min."
+		n=${f##*/}
+		mf=$dir_pkg$n".min.js"
 
+		## Javascript
 		# Check if update needed
-		for t in "js" "css"
-		do
+		checked=()
+		changed=""
+		compilechk $f $n
+
+		if [[ "$changed" > "" ]]; then
+			# Clear and attach header to package
+			cat "HEADER" > $mf
+
+			# Compile dependencies
 			checked=()
-			changed=""
-			for l in `cat $f`
-			do
-				compilechk $f $l $f $t
-			done
+			compile $f $n
+			echo "- Compiled: "$mf
+		fi
 
-			if [[ "$changed" > "" ]]; then
-				# Clear and attach header to package
-				cat "../HEADER" > $mf$t
-
-				# Compile dependencies
-				checked=()
-				for l in `cat $f`
-				do
-					compile $f $l $f $t
-				done
-				echo "- Compiled: "$mf$t
-			fi
-		done
+		## CSS
+		checked=()
+		if [[ $(compilechk_css $f $n) == true ]]; then
+			# Compile dependencies
+			checked=()
+			compile_css $f $n
+		fi
 	done
-
-	# Return to top-level
-	cd ..
 }
 compile_packages

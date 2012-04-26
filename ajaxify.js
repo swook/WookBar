@@ -1,7 +1,4 @@
-/*!
-   WookBar for Blogger
-   - Ajaxify
- */
+/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | ajaxify.js */
 
 (function(WB, $, undefined) {
 	var UI = WB.UI,

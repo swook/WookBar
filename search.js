@@ -1,13 +1,13 @@
-/*!
-   WookBar for Blogger
-   - Search
- */
+/*! WookBar by Seon-Wook Park (www.swook.net) | MIT License | search.js */
 
 (function(WB, $, undefined) {
 	var UI = WB.UI,
 		data = WB.data,
 		elem = WB.elem.search,
 		util = WB.util;
+
+	elem.submit = $('input[type=submit]', elem.form);
+	elem.results = $('div.results', elem.main);
 
 	var init = function() {
 		handler.attachAll();
@@ -26,10 +26,19 @@
 
 	var handler = {
 		attachAll: function() {
-			elem.form.hover(handler.form.hoverIn, handler.form.hoverOut);
+			elem.main.hover(handler.main.hoverIn, handler.main.hoverOut);
 			elem.input.on('focus', handler.input.focus).on('blur', handler.input.blur);
+
+			// Resize results div on window resize
+			$(window).resize(handler.window.resize);
+			handler.window.resize();
 		},
-		form: {
+		window: {
+			resize: function(e) {
+				elem.results.css('max-height', window.innerHeight-26);
+			}
+		},
+		main: {
 			hoverIn: function(e) {
 				util.clearDelay(action.input.blur);
 				action.input.focus();
@@ -41,10 +50,10 @@
 		},
 		input: {
 			focus: function(e) {
-				elem.form.addClass('focus');
+				elem.main.addClass('focus');
 			},
 			blur: function(e) {
-				elem.form.removeClass('focus');
+				elem.main.removeClass('focus');
 			}
 		},
 		submit: {

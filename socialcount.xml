@@ -11,41 +11,41 @@
 			</inputs>
 			<execute><![CDATA[
 				var urle = encodeURIComponent(url);
-				response.object = {'url':url};
+				response.object = {'url':url,'counts':{}};
 				var gplus = y.rest("https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ").accept('application/json').contentType('application/json').post([{'method':'pos.plusones.get','id':'p','params':{'nolog':true,'id':url,'source':'widget','userId':'@viewer','groupId':'@self'},'jsonrpc':'2.0','key':'p','apiVersion':'v1'}]);
 				y.rest("https://graph.facebook.com/?id="+urle, function(r) {
 					var c = r.response.shares.toString();
-					response.object.facebook = c ? parseInt(c) : 0;
+					response.object.counts.facebook = c ? parseInt(c) : 0;
 				}).accept('application/json').get();
 				y.rest("http://urls.api.twitter.com/1/urls/count.json?url="+urle, function(r) {
 					var c = r.response.count.toString();
-					response.object.twitter = c ? parseInt(c) : 0;
+					response.object.counts.twitter = c ? parseInt(c) : 0;
 				}).accept('application/json').get();
 				y.rest("http://www.linkedin.com/countserv/count/share?format=json&url="+urle, function(r) {
-					response.object.linkedin = parseInt(r.response.count);
+					response.object.counts.linkedin = parseInt(r.response.count);
 				}).accept('application/json').get();
 				y.rest("http://buttons.reddit.com/button_info.json?url="+urle, function(r) {
 					var c = r.response..score.toString();
-					response.object.reddit = c ? parseInt(c) : 0;
+					response.object.counts.reddit = c ? parseInt(c) : 0;
 				}).accept('application/json').get();
 				y.rest("http://www.stumbleupon.com/services/1.01/badge.getinfo?url="+urle, function(r) {
 					var c = r.response..views.toString();
-					response.object.stumbleupon = c ? parseInt(c) : 0;
+					response.object.counts.stumbleupon = c ? parseInt(c) : 0;
 				}).accept('application/json').get();
 				y.rest("http://services.digg.com/2.0/story.getInfo?links="+urle, function(r) {
 					var c = r.response.stories.diggs.toString();
-					response.object.digg = c ? parseInt(c) : 0;
+					response.object.counts.digg = c ? parseInt(c) : 0;
 				}).accept('application/json').get();
 				y.rest("http://feeds.delicious.com/v2/json/urlinfo/data?url="+urle, function(r) {
 					var m = r.response.toString().match(/"total_posts": ([0-9]+)/);
-					response.object.delicious = (m && m.length > 1) ? parseInt(m[1]) : 0;
+					response.object.counts.delicious = (m && m.length > 1) ? parseInt(m[1]) : 0;
 				}).accept('application/json').get();
 				y.rest("http://api.pinterest.com/v1/urls/count.json?url="+urle, function(r) {
 					var m = r.response.toString().match(/"count": ([0-9]+)/);
-					response.object.pinterest = (m && m.length > 1) ? parseInt(m[1]) : 0;
+					response.object.counts.pinterest = (m && m.length > 1) ? parseInt(m[1]) : 0;
 				}).accept('application/json').get();
 				y.sync();
-				response.object.google_plus = parseInt(gplus.response.toString().match(/"count": ([0-9]+)/)[1]);
+				response.object.counts.google_plus = parseInt(gplus.response.toString().match(/"count": ([0-9]+)/)[1]);
 			]]></execute>
 		</select>
 	</bindings>
