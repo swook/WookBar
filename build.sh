@@ -6,6 +6,30 @@ dir_min="min/"
 dir_tparty="thirdparty/"
 dir_theme="theme/"
 
+# check_installed checks if a command is available
+check_installed() {
+	if ! $(command -v $1 > /dev/null 2>&1); then
+		echo "Error: "$1" is not installed."
+		exit
+	fi
+}
+
+
+# Install bourbon if not installed in thirdparty/bourbon/
+if [ ! -d $dir_tparty"bourbon" ]; then
+	cd $dir_tparty
+	check_installed gem
+	if ! $(command -v bourbon > /dev/null 2>&1); then
+		if [[ "$(which gem)" =~ "^$HOME" ]]; then
+			gem install bourbon
+		else
+			sudo gem install bourbon
+		fi
+	fi
+	bourbon install
+	cd - > /dev/null
+fi
+
 third_party_url=()
 third_party_done=()
 get_thirdparty_list () {
