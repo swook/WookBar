@@ -14,21 +14,35 @@ check_installed() {
 	fi
 }
 
+# Install required ruby gem depending on whether is local installation
+install_gem() {
+	# If command exists, return
+	if $(command -v $1 > /dev/null 2>&1); then
+		return
+	fi
+
+	# If not, install gem
+	if [[ "$(which gem)" =~ "^$HOME" ]]; then
+		# Ruby is user installation. No need for sudo
+		gem install $1
+	else
+		# Ask for password if gem is not local installation
+		echo "Note: root access required to install $1"
+		sudo gem install $1
+	fi
+}
 
 # Install bourbon if not installed in thirdparty/bourbon/
 if [ ! -d $dir_tparty"bourbon" ]; then
 	cd $dir_tparty
 	check_installed gem
-	if ! $(command -v bourbon > /dev/null 2>&1); then
-		if [[ "$(which gem)" =~ "^$HOME" ]]; then
-			gem install bourbon
-		else
-			sudo gem install bourbon
-		fi
-	fi
+	install_gem bourbon
 	bourbon install
 	cd - > /dev/null
 fi
+
+# Install sass if not installed
+install_gem sass
 
 third_party_url=()
 third_party_done=()
