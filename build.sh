@@ -54,7 +54,7 @@ get_thirdparty_list () {
 			continue
 		fi
 		third_party_url=("${third_party_url[@]}" "$url")
-		third_party_done=(${third_party_done[@]} false)
+		third_party_done=(${third_party_done[@]} "0")
 	done
 }
 get_thirdparty_list
@@ -74,27 +74,25 @@ update_thirdparty () {
 	while [ $i -lt $n ]; do
 		url=${third_party_url[$i]}
 		f=${url##*/}
-		if [[ $f == *"."$2 ]]; then
-			if [[ $f != *".min.js" ]]; then
-				mf=${f/%".js"/".min.js"}
-			fi
-			if [ "$f" = "$1" ] || [ "$mf" = "$1" ]; then
-				if ${third_party_done[$i]}; then
-					return
-				fi
-				echo "- Updating: "$f
-				cd $dir_tparty
-				wget -Nnv "$url"
-				if [[ $mf > "" ]]; then
-					if [ $f -nt $mf ]; then
-						echo "- Minifying: "$f
-						yui-compressor $f > $mf
-					fi
-				fi
-				third_party_done[$i]=true
-				cd ..
+		if [[ $f != *".min.js" ]]; then
+			mf=${f/%".js"/".min.js"}
+		fi
+		if [ "$f" = "$1" ] || [ "$mf" = "$1" ]; then
+			if [ "${third_party_done[$i]}" = "1" ]; then
 				return
 			fi
+			echo "- Updating: "$f
+			cd $dir_tparty
+			wget -Nnv "$url"
+			if [[ $mf > "" ]]; then
+				if [ $f -nt $mf ]; then
+					echo "- Minifying: "$f
+					yui-compressor $f > $mf
+				fi
+			fi
+			third_party_done[$i]="1"
+			cd ..
+			return
 		fi
 		mf=""
 		i=$(( $i + 1 ))
