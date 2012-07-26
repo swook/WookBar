@@ -32,10 +32,13 @@ install_gem() {
 	fi
 }
 
+# Check command dependencies
+check_installed gem
+check_installed yui-compressor
+
 # Install bourbon if not installed in thirdparty/bourbon/
 if [ ! -d $dir_tparty"bourbon" ]; then
 	cd $dir_tparty
-	check_installed gem
 	install_gem bourbon
 	bourbon install
 	cd - > /dev/null
