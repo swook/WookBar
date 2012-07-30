@@ -2,7 +2,7 @@
 
 dir_pkg="pkg/"
 dir_pkgcfg=$dir_pkg"cfg/"
-dir_min="min/"
+dir_tmp="tmp/"
 dir_tparty="thirdparty/"
 dir_theme="theme/"
 
@@ -102,15 +102,15 @@ update_thirdparty () {
 	done
 }
 
-if [ ! -d $dir_min ]; then
-	mkdir $dir_min
+if [ ! -d $dir_tmp ]; then
+	mkdir $dir_tmp
 fi
 
 minify_js () {
 	local f
 	local mf
 	for f in *.js; do
-		mf=$dir_min${f/%".js"/".min.js"}
+		mf=$dir_tmp${f/%".js"/".min.js"}
 		if [ $f -nt $mf ]; then
 			echo "- Minifying: "$f
 			yui-compressor --type js $f > $mf
@@ -139,13 +139,13 @@ minify_scss () {
 	local tf
 	for f in *.scss; do
 		for t in ${themes[@]}; do
-			mf=$dir_min$t.${f/%".scss"/".min.css"}
+			mf=$dir_tmp$t.${f/%".scss"/".min.css"}
 			if [ $f -nt $mf ] || [ $dir_theme$t".scss" -nt $mf ] || [ $dir_theme"common.scss" -nt $mf ]; then
 				echo "- Minifying: $f ($t)"
 				tf=${f/%".scss"/".$t.scss"}
 				cf=${f/%".scss"/".$t.css"}
 				cat $dir_theme"common.scss" $dir_theme$t".scss" $f > $tf
-				sass --trace --style compressed $tf $cf -r $dir_tparty/bourbon/lib/bourbon.rb
+				sass --trace --cache-location $dir_tmp".sass-cache" --style compressed $tf $cf -r $dir_tparty/bourbon/lib/bourbon.rb
 				yui-compressor --type "css" $cf > $mf
 				rm $tf $cf
 			fi
@@ -171,12 +171,12 @@ check() {
 compilechk () {
 	local n=$1
 	n=${n##*/}
-	if [ ! -f $1 -a -f $dir_min$n".min.js" ]; then
+	if [ ! -f $1 -a -f $dir_tmp$n".min.js" ]; then
 		if $(check $1); then
 			return
 		fi
-		if [ -f $dir_min$n".min.js" ]; then
-			if [ $dir_min$n".min.js" -nt $dir_pkg$2".min.js" ]; then
+		if [ -f $dir_tmp$n".min.js" ]; then
+			if [ $dir_tmp$n".min.js" -nt $dir_pkg$2".min.js" ]; then
 				changed=$1
 			fi
 		fi
@@ -198,9 +198,9 @@ compile () {
 		cat $dir_tparty$n".min.js" >> $dir_pkg$2".min.js"
 		echo -e "\n" >> $dir_pkg$2".min.js"
 		checked=("${checked[@]}" "$1")
-	elif [ ! -f $1 -a -f $dir_min$n".min.js" ]; then
-		if [ -f $dir_min$n".min.js" ]; then
-			cat $dir_min$n".min.js" >> $dir_pkg$2".min.js"
+	elif [ ! -f $1 -a -f $dir_tmp$n".min.js" ]; then
+		if [ -f $dir_tmp$n".min.js" ]; then
+			cat $dir_tmp$n".min.js" >> $dir_pkg$2".min.js"
 			echo -e "\n" >> $dir_pkg$2".min.js"
 		fi
 		checked=("${checked[@]}" "$1")
@@ -228,11 +228,11 @@ compilechk_css () {
 			return
 		fi
 		for t in ${themes[@]}; do
-			if [ ! -f $dir_min$t.$1.min.css ]; then
+			if [ ! -f $dir_tmp$t.$1.min.css ]; then
 				return
 			fi
 			checked=("${checked[@]}" "$1")
-			if [ $dir_min$t.$1.min.css -nt $dir_pkg$t.$2.min.css ]; then
+			if [ $dir_tmp$t.$1.min.css -nt $dir_pkg$t.$2.min.css ]; then
 				echo true
 				return
 			fi
@@ -254,14 +254,14 @@ compile_css () {
 			return
 		fi
 		for t in ${themes[@]}; do
-			if [ ! -f $dir_min$t.$1.min.css ]; then
+			if [ ! -f $dir_tmp$t.$1.min.css ]; then
 				return
 			fi
 			if [ ${#checked[@]} = 0 ]; then
 				cat "HEADER" > $dir_pkg$t.$2.min.css
 				echo "- Compiled: $dir_pkg$t.$2.min.css"
 			fi
-			cat $dir_min$t.$1.min.css >> $dir_pkg$t.$2.min.css
+			cat $dir_tmp$t.$1.min.css >> $dir_pkg$t.$2.min.css
 		done
 		checked=("${checked[@]}" "$1")
 	fi
