@@ -1,10 +1,29 @@
 #!/bin/bash
 
+## WookBar build script
+## Author:	Seon-Wook Park (www.swook.net)
+## License:	CC BY-NC-SA
+
+##
+# Define and create required directories
+##
+
 dir_pkg="pkg/"
 dir_pkgcfg=$dir_pkg"cfg/"
 dir_tmp="tmp/"
 dir_tparty="thirdparty/"
 dir_theme="theme/"
+
+# Create temporary directory for minified scripts
+# and sass cache files
+if [ ! -d $dir_tmp ]; then
+	mkdir $dir_tmp
+fi
+
+
+##
+# Check for required commands and install required gems
+##
 
 # check_installed checks if a command is available
 check_installed() {
@@ -13,6 +32,11 @@ check_installed() {
 		exit
 	fi
 }
+
+# Check command dependencies
+check_installed gem
+check_installed yui-compressor
+
 
 # Install required ruby gem depending on whether is local installation
 install_gem() {
@@ -32,10 +56,6 @@ install_gem() {
 	fi
 }
 
-# Check command dependencies
-check_installed gem
-check_installed yui-compressor
-
 # Install bourbon if not installed in thirdparty/bourbon/
 if [ ! -d $dir_tparty"bourbon" ]; then
 	cd $dir_tparty
@@ -47,6 +67,12 @@ fi
 # Install sass if not installed
 install_gem sass
 
+
+##
+# Gather list of required third party scripts
+##
+
+# Parse list of third party scripts into array
 third_party_url=()
 third_party_done=()
 get_thirdparty_list () {
@@ -62,49 +88,11 @@ get_thirdparty_list () {
 }
 get_thirdparty_list
 
-update_thirdparty () {
-	if [ ! $1 ]; then
-		return
-	fi
 
-	# Update all third party files
-	local i=0
-	local n=${#third_party_url[@]}
-	local f
-	local mf
-	local output
 
-	while [ $i -lt $n ]; do
-		url=${third_party_url[$i]}
-		f=${url##*/}
-		if [[ $f != *".min.js" ]]; then
-			mf=${f/%".js"/".min.js"}
-		fi
-		if [ "$f" = "$1" ] || [ "$mf" = "$1" ]; then
-			if [ "${third_party_done[$i]}" = "1" ]; then
-				return
-			fi
-			echo "- Updating: "$f
-			cd $dir_tparty
-			wget -Nnv "$url"
-			if [[ $mf > "" ]]; then
-				if [ $f -nt $mf ]; then
-					echo "- Minifying: "$f
-					yui-compressor $f > $mf
-				fi
-			fi
-			third_party_done[$i]="1"
-			cd ..
-			return
-		fi
-		mf=""
-		i=$(( $i + 1 ))
-	done
-}
-
-if [ ! -d $dir_tmp ]; then
-	mkdir $dir_tmp
-fi
+##
+# Minify Javascript files
+##
 
 minify_js () {
 	local f
@@ -120,6 +108,11 @@ minify_js () {
 # For all non-minified js files
 minify_js
 
+
+
+##
+# Minify CSS files with available themes
+##
 
 themes=()
 get_themes () {
@@ -156,8 +149,15 @@ get_themes
 minify_scss
 
 
+
+##
+# Compile required files for each package
+# respecting dependencies listed in pkg/cfg/
+##
+
 checked=()
 changed=""
+
 check() {
 	local c
 	for c in "${checked[@]}"; do
@@ -168,6 +168,7 @@ check() {
 	done
 	echo false
 }
+
 compilechk () {
 	local n=$1
 	n=${n##*/}
@@ -187,6 +188,50 @@ compilechk () {
 		done
 	fi
 }
+
+# Update/Download third party script if not done yet
+update_thirdparty () {
+	if [ ! $1 ]; then
+		return
+	fi
+
+	# Update all third party files
+	local i=0
+	local n=${#third_party_url[@]}
+	local f
+	local mf
+	local output
+
+	while [ $i -lt $n ]; do
+		url=${third_party_url[$i]}
+		f=${url##*/}
+
+		# If script not minified
+		if [[ $f != *".min.js" ]]; then
+			mf=${f/%".js"/".min.js"}
+		fi
+		if [ "$f" = "$1" ] || [ "$mf" = "$1" ]; then
+			if [ "${third_party_done[$i]}" = "1" ]; then
+				return
+			fi
+			echo "- Updating: "$f
+			cd $dir_tparty
+			wget -Nnv "$url"
+			if [[ $mf > "" ]]; then
+				if [ $f -nt $mf ]; then
+					echo "- Minifying: "$f
+					yui-compressor $f > $mf
+				fi
+			fi
+			third_party_done[$i]="1"
+			cd ..
+			return
+		fi
+		mf=""
+		i=$(( $i + 1 ))
+	done
+}
+
 compile () {
 	local n=$1
 	n=${n##*/}
