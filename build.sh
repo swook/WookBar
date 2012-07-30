@@ -35,6 +35,7 @@ check_installed() {
 
 # Check command dependencies
 check_installed gem
+check_installed uglifyjs
 check_installed yui-compressor
 
 
@@ -101,7 +102,7 @@ minify_js () {
 		mf=$dir_tmp${f/%".js"/".min.js"}
 		if [ $f -nt $mf ]; then
 			echo "- Minifying: "$f
-			yui-compressor --type js $f > $mf
+			uglifyjs -o $mf $f
 		fi
 	done
 }
