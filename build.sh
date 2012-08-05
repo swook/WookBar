@@ -8,6 +8,7 @@
 # Define and create required directories
 ##
 
+dir_src="src/"
 dir_pkg="pkg/"
 dir_pkgcfg=$dir_pkg"cfg/"
 dir_tmp="tmp/"
@@ -97,11 +98,13 @@ get_thirdparty_list
 
 minify_js () {
 	local f
+	local n
 	local mf
-	for f in *.js; do
-		mf=$dir_tmp${f/%".js"/".min.js"}
+	for f in $dir_src*.js; do
+		n=${f##*/}
+		mf=$dir_tmp${n/%".js"/".min.js"}
 		if [ $f -nt $mf ]; then
-			echo "- Minifying: "$f
+			echo "- Minifying: "$n
 			uglifyjs -o $mf $f
 		fi
 	done
@@ -127,15 +130,17 @@ get_themes () {
 }
 minify_scss () {
 	local f
+	local n
 	local mf
 	local cf
 	local t
 	local tf
-	for f in *.scss; do
+	for f in $dir_src*.scss; do
+		n=${f##*/}
 		for t in ${themes[@]}; do
-			mf=$dir_tmp$t.${f/%".scss"/".min.css"}
+			mf=$dir_tmp$t.${n/%".scss"/".min.css"}
 			if [ $f -nt $mf ] || [ $dir_theme$t".scss" -nt $mf ] || [ $dir_theme"common.scss" -nt $mf ]; then
-				echo "- Minifying: $f ($t)"
+				echo "- Minifying: $n ($t)"
 				tf=${f/%".scss"/".$t.scss"}
 				cf=${f/%".scss"/".$t.css"}
 				cat $dir_theme"common.scss" $dir_theme$t".scss" $f > $tf
@@ -173,7 +178,7 @@ check() {
 compilechk () {
 	local n=$1
 	n=${n##*/}
-	if [ ! -f $1 -a -f $dir_tmp$n".min.js" ]; then
+	if [ ! -f $dir_src$1 -a -f $dir_tmp$n".min.js" ]; then
 		if $(check $1); then
 			return
 		fi
@@ -183,7 +188,7 @@ compilechk () {
 			fi
 		fi
 		checked=("${checked[@]}" "$1")
-	elif [ -f $1 ]; then
+	elif [ -f $dir_src$1 ]; then
 		for l in $(cat $1); do
 			compilechk $l $2
 		done
@@ -244,13 +249,13 @@ compile () {
 		cat $dir_tparty$n".min.js" >> $dir_pkg$2".min.js"
 		echo -e "\n" >> $dir_pkg$2".min.js"
 		checked=("${checked[@]}" "$1")
-	elif [ ! -f $1 -a -f $dir_tmp$n".min.js" ]; then
+	elif [ ! -f $dir_src$1 -a -f $dir_tmp$n".min.js" ]; then
 		if [ -f $dir_tmp$n".min.js" ]; then
 			cat $dir_tmp$n".min.js" >> $dir_pkg$2".min.js"
 			echo -e "\n" >> $dir_pkg$2".min.js"
 		fi
 		checked=("${checked[@]}" "$1")
-	elif [ -f $1 ]; then
+	elif [ -f $dir_src$1 ]; then
 		for l in $(cat $1); do
 			compile $l $2
 		done
