@@ -109,7 +109,7 @@
 		core: {
 			init_done: false,
 			init: function() {
-				$('<div id="WB"><ul><li class="appmenu"><div class="bar-bg"><div class="bg"/><div class="onhover"/></div><a class="blogger" href="http://www.blogger.com/" title="Go to Blogger.com"></a><a class="title"></a><div class="menu"><hr/>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></li><li class="search"><form action="/search"><input name="q" type="text" placeholder="Search "><input value type="submit"></form><div class="results"><div class="result">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></div></li></ul></div>').insertBefore($('#navbar'));
+				$('<div id="WB"><ul><li class="appmenu"><div class="bar-bg"><div class="bg"/><div class="onhover"/></div><a class="blogger" href="http://www.blogger.com/" title="Go to Blogger.com"></a><a class="title"></a><div class="menu"><hr/>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></li><li class="crumb"><a href="/">Home</a></li><li class="search"><form action="/search"><input name="q" type="text" placeholder="Search "><input value type="submit"></form><div class="results"><div class="result">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></div></li></ul></div>').insertBefore($('#navbar'));
 				elem.main = $('#WB');
 				elem.appmenu = { main: $('li.appmenu', elem.main) };
 				elem.appmenu.title =  $('a.title', elem.appmenu.main);

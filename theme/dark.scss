@@ -1,4 +1,9 @@
-$color-text: #333;
-$color-bg: #F1F1F1;
-$color-bg-hover: #F8F8F8;
-$color-border: #DDD;
+$color-barbg-start: rgba(45,45,45,.7);
+$color-barbg-end: rgba(70,70,70,.7);
+
+$color-text: #EEE;
+$color-bg: #333;
+$color-bg-hover: #444;
+$color-border: #222;
+
+$image-magni: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAJ1BMVEX///+fn5+jo6Ojo6OsrKysrKysrKy1tbW1tbW9vb3V1dXMzMzIyMh4YmvhAAAADXRSTlMAIkRViKq7zN3u////xc0tOQAAAAlwSFlzAAAK8AAACvABQqw0mAAAAB90RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgOLVo0ngAAAANdEVYdGF1dGhvcgBXb29raWUShjEqAAAAd0lEQVQImWNgEDu1pogBCJhmrd61xgDIkFzd6rHrEJDhtQ2IVwAZsyYyMHCsFAAyChgYWECKQAxWEKMLKMW5EqR4hQBj1TIgQ2LVicpVW4GKmbpXrdqzqhkoxNI5I/gU2GxGAYasVYcZwEBi1RoIg7FrFQNUaAUAh9kjMZCCFIsAAAAASUVORK5CYII=");

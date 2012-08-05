@@ -138,7 +138,7 @@ minify_scss () {
 	for f in $dir_src*.scss; do
 		n=${f##*/}
 		for t in ${themes[@]}; do
-			mf=$dir_tmp$t.${n/%".scss"/".min.css"}
+			mf=$dir_tmp${n/%".scss"/"."$t".min.css"}
 			if [ $f -nt $mf ] || [ $dir_theme$t".scss" -nt $mf ] || [ $dir_theme"common.scss" -nt $mf ]; then
 				echo "- Minifying: $n ($t)"
 				tf=${f/%".scss"/".$t.scss"}
@@ -279,11 +279,11 @@ compilechk_css () {
 			return
 		fi
 		for t in ${themes[@]}; do
-			if [ ! -f $dir_tmp$t.$1.min.css ]; then
+			if [ ! -f $dir_tmp$1.$t.min.css ]; then
 				return
 			fi
 			checked=("${checked[@]}" "$1")
-			if [ $dir_tmp$t.$1.min.css -nt $dir_pkg$t.$2.min.css ]; then
+			if [ $dir_tmp$1.$t.min.css -nt $dir_pkg$2.$t.min.css ]; then
 				echo true
 				return
 			fi
@@ -305,14 +305,14 @@ compile_css () {
 			return
 		fi
 		for t in ${themes[@]}; do
-			if [ ! -f $dir_tmp$t.$1.min.css ]; then
+			if [ ! -f $dir_tmp$1.$t.min.css ]; then
 				return
 			fi
 			if [ ${#checked[@]} = 0 ]; then
-				cat "HEADER" > $dir_pkg$t.$2.min.css
-				echo "- Compiled: $dir_pkg$t.$2.min.css"
+				cat "HEADER" > $dir_pkg$2.$t.min.css
+				echo "- Compiled: $dir_pkg$2.$t.min.css"
 			fi
-			cat $dir_tmp$t.$1.min.css >> $dir_pkg$t.$2.min.css
+			cat $dir_tmp$1.$t.min.css >> $dir_pkg$2.$t.min.css
 		done
 		checked=("${checked[@]}" "$1")
 	fi

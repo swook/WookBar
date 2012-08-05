@@ -9,12 +9,13 @@
 	display: none;
 	margin: 0;
 	top: 0;
+	left: 0;
 	height: $bar-height;
 	width: 100%;
 	border-bottom: 1px solid $color-border;
 	z-index: 100;
 	ul {
-		@include background-image(linear-gradient(rgba(240,240,240,.7), rgba(255,255,255,.7)));
+		@include background-image(linear-gradient($color-barbg-start, $color-barbg-end));
 		list-style: none;
 		position: relative;
 		margin: 0;
@@ -106,6 +107,19 @@
 					@include transition(text-shadow .5s, border-left-color .5s);
 					&:hover {
 						text-shadow: white 0 0 1px;
+						&:after {
+							@include background-image(linear-gradient(0deg, $color-blogger-hover-start, rgba(255,255,255,0)));
+						}
+					}
+					&:after {
+						display: block;
+						content: '';
+						position: absolute;
+						top: 0;
+						right: -6px;
+						width: 6px;
+						height:100%;
+						@include background-image(linear-gradient(0deg, $color-blogger-start, rgba(255,255,255,0)));
 					}
 				}
 			}
@@ -128,16 +142,19 @@
 					}
 				}
 			}
-			+ li.crumb a {
-				padding: 0 13px;
+			+ li.crumb {
+				a {
+					padding: 0 13px 0 20px;
+				}
 			}
 		}
 		&.crumb {
+			color: $color-text;
+			font-size: 13.5px;
 			a {
 				background-color: $color-bg;
-				font-size: 13px;
 				padding: 0 10px 0 23px;
-				@include transition(color .5s);
+				color: $color-text;
 			}
 			span {
 				display: block;
@@ -207,8 +224,8 @@
 					display: block;
 					position: absolute;
 					content: '';
-					top: 0;
-					border-width: 13px 13px 13px 0;
+					top: -1px;
+					border-width: 14px 14px 14px 0;
 					border-style: outset solid solid solid;
 				}
 				&:before {
@@ -228,7 +245,7 @@
 				width: 0;
 				margin: 3px 0;
 				padding: 1px 4px;
-				color: $color-bg;
+				color: #222;
 				border: 1px solid $color-bg;
 				background-color: inherit;
 				@include border-radius(2px);
@@ -239,7 +256,6 @@
 				margin-left: 8px;
 				margin-right: 32px;
 				width: $exwidth - 50px;
-				color: $color-text;
 				border-color: darken($color-bg-hover, 5%);
 				background-color: lighten($color-bg-hover, 2%);
 			}
@@ -249,7 +265,7 @@
 				outline: 0;
 			}
 			input[type=submit] {
-				background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAALVBMVEX///9mZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmaSGrP3AAAAD3RSTlMAESIzVWZ3iJmqu8zd7v9cds+WAAAACXBIWXMAAArwAAAK8AFCrDSYAAAAH3RFWHRTb2Z0d2FyZQBNYWNyb21lZGlhIEZpcmV3b3JrcyA4tWjSeAAAAHtJREFUCJljYBA796aIAQiY9r2998YAyJB+O9Xz3iEgw+8aEL8AMtYtZGDgfCXAwLCvgIGBBaRoHZDBCmLM28jAwPUKpPiFAGPdMyBD8t2J6ndXgYqZ5r57d+fdZKAQy6ydwefAZjMKMOS9O8wABhLv3kAYjH3vGKBCLwCxwiq/DoIXaAAAAABJRU5ErkJggg==") no-repeat center center;
+				background: $image-magni no-repeat center center;
 				position: fixed;
 				border: none;
 				padding: 0;
