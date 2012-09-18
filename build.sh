@@ -178,17 +178,15 @@ check() {
 compilechk () {
 	local n=$1
 	n=${n##*/}
-	if [ ! -f $dir_src$1 -a -f $dir_tmp$n".min.js" ]; then
+	if [[ ("$1" == "$2") || (! -f $dir_pkgcfg$n) ]] && [[ -f $dir_tmp$n".min.js" ]]; then
 		if $(check $1); then
 			return
 		fi
-		if [ -f $dir_tmp$n".min.js" ]; then
-			if [ $dir_tmp$n".min.js" -nt $dir_pkg$2".min.js" ]; then
-				changed=$1
-			fi
+		if [ $dir_tmp$n".min.js" -nt $dir_pkg$2".min.js" ]; then
+			changed=$1
 		fi
 		checked=("${checked[@]}" "$1")
-	elif [ -f $dir_src$1 ]; then
+	elif [ -f $1 ]; then
 		for l in $(cat $1); do
 			compilechk $l $2
 		done
@@ -249,13 +247,11 @@ compile () {
 		cat $dir_tparty$n".min.js" >> $dir_pkg$2".min.js"
 		echo -e "\n" >> $dir_pkg$2".min.js"
 		checked=("${checked[@]}" "$1")
-	elif [ ! -f $dir_src$1 -a -f $dir_tmp$n".min.js" ]; then
-		if [ -f $dir_tmp$n".min.js" ]; then
-			cat $dir_tmp$n".min.js" >> $dir_pkg$2".min.js"
-			echo -e "\n" >> $dir_pkg$2".min.js"
-		fi
+	elif [[ ("$1" == "$2") || (! -f $dir_pkgcfg$n) ]] && [[ -f $dir_tmp$n".min.js" ]]; then
+		cat $dir_tmp$n".min.js" >> $dir_pkg$2".min.js"
+		echo -e "\n" >> $dir_pkg$2".min.js"
 		checked=("${checked[@]}" "$1")
-	elif [ -f $dir_src$1 ]; then
+	elif [ -f $1 ]; then
 		for l in $(cat $1); do
 			compile $l $2
 		done

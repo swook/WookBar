@@ -2,3 +2,5 @@
 tmp/
 thirdparty/*.js
 thirdparty/bourbon/
+Wookbar.sublime-project
+Wookbar.sublime-workspace
