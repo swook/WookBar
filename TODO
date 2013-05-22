@@ -1,0 +1,48 @@
+Changes in build and source code
+================================
+Replace yui-compressor with `stylus -c`
+Replace SASS with stylus
+Remove bourbon
+
+Use coffeescript
+Use modernizr
+Look into using AngularJS
+
+Put source files into subfolders not one top-level folder
+Rename folders with proper names
+- pkg > build
+- tmp > .cache
+- thirdparty > lib
+
+Do not minify output. Create minified files additionally, not only
+Minify final compiled files not each component file
+
+
+UI
+==
+Do not use hover=exclusive interactions, allow dropdown interacting
+- Hover interactions break on mobile
+
+Adapt to screen=width
+- Look into how bootstrap does it
+
+
+Reduce complexity of product
+============================
+Form core JS file to include, and get theme etc settings via JS.
+Figure out way to load CSS properly
+- May need default theme. symlink to provide defaults
+
+
+Functionality implementation order
+==================================
+Focus on getting bar with shortcuts and social buttons/stats first
+Then add search
+Then consider writing backend for recommendations and ranking of posts
+
+No Ajax magic for pages yet
+
+
+Social Stats
+============
+Use YQL, cache returned stats
