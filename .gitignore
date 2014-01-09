@@ -1,6 +1,14 @@
+# Temporary/cache files
 .sass-cache/
 tmp/
+
+# Files for build process
 thirdparty/*.js
 thirdparty/bourbon/
+
+# Built files
+pkg/*.css
+pkg/*.js
+
 Wookbar.sublime-project
 Wookbar.sublime-workspace
