@@ -1,6 +1,7 @@
 # Temporary/cache files
 .sass-cache/
 tmp/
+*~
 
 # Files for build process
 thirdparty/*.js
