@@ -11,5 +11,6 @@ thirdparty/bourbon/
 pkg/*.css
 pkg/*.js
 
-Wookbar.sublime-project
-Wookbar.sublime-workspace
+# Sublime environment related files
+*.sublime-project
+*.sublime-workspace
