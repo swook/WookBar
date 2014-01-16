@@ -36,9 +36,21 @@ check_installed() {
 
 # Check command dependencies
 check_installed gem
-check_installed uglifyjs
-check_installed yui-compressor
 
+# Install required node module
+install_npm() {
+	# If command exists, return
+	if $(command -v $1 > /dev/null 2>&1); then
+		return
+	fi
+
+	cd $HOME
+	npm install $1
+	cd -
+}
+
+install_npm uglifyjs
+install_npm yuicompressor
 
 # Install required ruby gem depending on whether is local installation
 install_gem() {
@@ -58,16 +70,14 @@ install_gem() {
 	fi
 }
 
-# Install bourbon if not installed in thirdparty/bourbon/
-if [ ! -d $dir_tparty"bourbon" ]; then
-	cd $dir_tparty
-	install_gem bourbon
-	bourbon install
-	cd - > /dev/null
-fi
-
 # Install sass if not installed
 install_gem sass
+install_gem bourbon
+
+# Install local bourbon if not installed
+if [ ! -d bourbon/ ]; then
+	bourbon install
+fi
 
 
 ##
@@ -121,10 +131,10 @@ minify_js
 themes=()
 get_themes () {
 	local t
-	for t in $dir_theme*; do
+	for t in $dir_theme*.scss; do
 		t=${t##*/}
 		if [ "$t" != "common.scss" ]; then
-			themes=("${themes[@]}" "${t%%.*}")
+			themes+=("${t%%.*}")
 		fi
 	done
 }
@@ -144,8 +154,8 @@ minify_scss () {
 				tf=${f/%".scss"/".$t.scss"}
 				cf=${f/%".scss"/".$t.css"}
 				cat $dir_theme"common.scss" $dir_theme$t".scss" $f > $tf
-				sass --trace --cache-location $dir_tmp".sass-cache" --style compressed $tf $cf -r $dir_tparty/bourbon/lib/bourbon.rb
-				yui-compressor --type "css" $cf > $mf
+				sass --trace --cache-location $dir_tmp".sass-cache" --style compressed $tf $cf
+				yuicompressor --type "css" $cf > $mf
 				rm $tf $cf
 			fi
 		done
@@ -224,7 +234,7 @@ update_thirdparty () {
 			if [[ $mf > "" ]]; then
 				if [ $f -nt $mf ]; then
 					echo "- Minifying: "$f
-					yui-compressor $f > $mf
+					yuicompressor $f > $mf
 				fi
 			fi
 			third_party_done[$i]="1"

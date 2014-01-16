@@ -1,5 +1,4 @@
 /*! WookBar by Seon-Wook Park (www.swook.net) | CC BY-NC-SA | core.css */
-
 #navbar iframe {
 	display: none !important;
 }
@@ -108,7 +107,7 @@
 					&:hover {
 						text-shadow: white 0 0 1px;
 						&:after {
-							@include background-image(linear-gradient(0deg, $color-blogger-hover-start, rgba(255,255,255,0)));
+							@include background-image(linear-gradient(90deg, $color-blogger-hover-start, rgba(255,255,255,0)));
 						}
 					}
 					&:after {
@@ -119,7 +118,7 @@
 						right: -6px;
 						width: 6px;
 						height:100%;
-						@include background-image(linear-gradient(0deg, $color-blogger-start, rgba(255,255,255,0)));
+						@include background-image(linear-gradient(90deg, $color-blogger-start, rgba(255,255,255,0)));
 					}
 				}
 			}

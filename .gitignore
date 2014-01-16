@@ -5,7 +5,7 @@ tmp/
 
 # Files for build process
 thirdparty/*.js
-thirdparty/bourbon/
+bourbon/
 
 # Built files
 pkg/*.css
